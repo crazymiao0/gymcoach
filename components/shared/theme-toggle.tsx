@@ -20,7 +20,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={() => setTheme(next)}
-      aria-label={`Switch to ${next === 'dark' ? 'dark' : 'light'} mode`}
+      aria-label={mounted ? `切换到${next === 'dark' ? '深色' : '浅色'}模式` : '切换主题'}
     >
       {!mounted ? (
         <Sun className="size-4" />

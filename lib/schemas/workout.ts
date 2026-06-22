@@ -13,4 +13,4 @@ export const workoutInputSchema = z.object({
 
 export type WorkoutInput = z.infer<typeof workoutInputSchema>;
 
-export const DAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+export const DAY_LABELS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];

@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import type { Prisma } from '@/prisma/generated/client';
 import { db } from '@/lib/db';
 import { handleApiError, parseJsonBody, requireApiUserId } from '@/lib/api';
 import { readinessCheckinInputSchema } from '@/lib/schemas/readiness';
@@ -28,7 +27,7 @@ export async function POST(req: Request) {
         userId,
         readiness: data.readiness,
         sleepQuality: data.sleepQuality,
-        soreness: (data.soreness ?? undefined) as Prisma.InputJsonValue | undefined,
+        soreness: data.soreness ? JSON.stringify(data.soreness) : null,
         note: data.note ?? null,
       },
     });

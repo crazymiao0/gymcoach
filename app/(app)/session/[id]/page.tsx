@@ -76,6 +76,15 @@ export default async function SessionRunPage(props: Props) {
 // suggestion. We only forward an in-window check-in; a stale one is dropped here
 // so the client never has to reason about clocks (and the suggestion stays
 // identical to the no-data path). Returns null when there is no usable signal.
+/** Safe JSON parse that returns null on invalid input. */
+function tryParseJson(raw: string): unknown {
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
 function buildReadinessSignal(
   checkin: {
     readiness: number;
@@ -87,10 +96,11 @@ function buildReadinessSignal(
   const ageHours = (Date.now() - checkin.createdAt.getTime()) / (1000 * 60 * 60);
   if (ageHours > READINESS_RECENCY_HOURS) return null;
 
-  // soreness is stored as JSON; coerce defensively to a plain { group: 1-5 } map.
+  // soreness is stored as JSON string (SQLite) or parsed object (Postgres).
   let soreness: ReadinessSignal['soreness'] = null;
-  if (checkin.soreness && typeof checkin.soreness === 'object' && !Array.isArray(checkin.soreness)) {
-    const entries = Object.entries(checkin.soreness as Record<string, unknown>).filter(
+  const raw = typeof checkin.soreness === 'string' ? tryParseJson(checkin.soreness) : checkin.soreness;
+  if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+    const entries = Object.entries(raw as Record<string, unknown>).filter(
       ([, v]) => typeof v === 'number',
     ) as Array<[string, number]>;
     if (entries.length > 0) {

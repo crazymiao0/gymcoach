@@ -686,7 +686,7 @@ export async function POST(req: Request) {
           userId,
           readiness: r.readiness,
           sleepQuality: r.sleepQuality,
-          soreness: r.soreness ?? undefined,
+          soreness: r.soreness ? (typeof r.soreness === 'string' ? r.soreness : JSON.stringify(r.soreness)) : null,
           note: r.note ?? null,
           createdAt: new Date(r.createdAt),
         }));

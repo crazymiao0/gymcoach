@@ -25,6 +25,15 @@ import { COACH_SYSTEM_PROMPT } from '@/lib/prompts/coach-system-prompt';
 import { exerciseRecords, type ExerciseRecord } from '@/lib/records';
 import { getLlmProvider } from '@/lib/llm';
 
+/** Safe JSON parse that returns null on invalid input. */
+function tryParseJson(raw: string): unknown {
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
 // ============================================================
 // Structured payload sent to the coach
 // ============================================================
@@ -834,10 +843,11 @@ async function fetchLatestReadiness(
     (now.getTime() - checkin.createdAt.getTime()) / (1000 * 60 * 60 * 24),
   );
 
-  // soreness is stored as JSON; coerce to a plain { group: 1-5 } map defensively.
+  // soreness is stored as JSON string (SQLite) or parsed object (Postgres).
   let soreness: Record<string, number> | null = null;
-  if (checkin.soreness && typeof checkin.soreness === 'object' && !Array.isArray(checkin.soreness)) {
-    const entries = Object.entries(checkin.soreness as Record<string, unknown>).filter(
+  const raw = typeof checkin.soreness === 'string' ? tryParseJson(checkin.soreness) : checkin.soreness;
+  if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+    const entries = Object.entries(raw as Record<string, unknown>).filter(
       ([, v]) => typeof v === 'number',
     ) as Array<[string, number]>;
     if (entries.length > 0) soreness = Object.fromEntries(entries);
@@ -959,8 +969,9 @@ export async function buildCurrentSessionContext(
   let readinessToday: CurrentSessionContext['readinessToday'] = null;
   if (checkin) {
     let soreness: Record<string, number> | null = null;
-    if (checkin.soreness && typeof checkin.soreness === 'object' && !Array.isArray(checkin.soreness)) {
-      const entries = Object.entries(checkin.soreness as Record<string, unknown>).filter(
+    const raw = typeof checkin.soreness === 'string' ? tryParseJson(checkin.soreness) : checkin.soreness;
+    if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+      const entries = Object.entries(raw as Record<string, unknown>).filter(
         ([, v]) => typeof v === 'number',
       ) as Array<[string, number]>;
       if (entries.length > 0) soreness = Object.fromEntries(entries);

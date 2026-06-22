@@ -18,8 +18,8 @@ import {
 } from '@/components/ui/card';
 
 const schema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(1, 'Password required'),
+  email: z.string().email('邮箱格式不正确'),
+  password: z.string().min(1, '请输入密码'),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -67,19 +67,19 @@ export function LoginForm() {
     }
 
     const data = (await res.json().catch(() => null)) as { error?: string } | null;
-    setServerError(data?.error ?? 'Login error.');
+    setServerError(data?.error ?? '登录失败');
   }
 
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Sign in</CardTitle>
-        <CardDescription>Access your training log.</CardDescription>
+        <CardTitle>登录</CardTitle>
+        <CardDescription>进入你的训练日志</CardDescription>
       </CardHeader>
       <CardContent>
         {showDemo && (
           <div className="mb-4 space-y-2 rounded-md border border-dashed bg-muted/50 p-3">
-            <p className="text-sm font-medium">Demo account</p>
+            <p className="text-sm font-medium">演示账号</p>
             <p className="text-sm text-muted-foreground">
               {demoEmail} / {demoPassword}
             </p>
@@ -90,13 +90,13 @@ export function LoginForm() {
               onClick={loginAsDemo}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Signing in...' : 'Log in as demo'}
+              {isSubmitting ? '登录中...' : '演示登录'}
             </Button>
           </div>
         )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">邮箱</Label>
             <Input
               id="email"
               type="email"
@@ -113,7 +113,7 @@ export function LoginForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">密码</Label>
             <Input
               id="password"
               type="password"
@@ -137,16 +137,16 @@ export function LoginForm() {
             className="min-h-tap w-full text-base"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Signing in...' : 'Sign in'}
+            {isSubmitting ? '登录中...' : '登录'}
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">
-            No account yet?{' '}
+            还没有账号？{' '}
             <Link
               href="/signup"
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              Create one
+              注册
             </Link>
           </p>
         </form>

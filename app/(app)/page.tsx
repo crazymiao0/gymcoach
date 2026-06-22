@@ -40,7 +40,7 @@ export default async function DashboardPage() {
         <div className="flex items-center gap-3">
           <Dumbbell className="size-8" />
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">GymCoach</h1>
+            <h1 className="text-2xl font-bold tracking-tight">力量训练日志</h1>
             <p className="text-xs text-muted-foreground">{session.email}</p>
           </div>
         </div>
@@ -62,10 +62,10 @@ export default async function DashboardPage() {
         {inProgressSession ? (
           <Card className="border-primary/40 bg-primary/5">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">Active session</CardTitle>
+              <CardTitle className="text-base">进行中的训练</CardTitle>
               <CardDescription>
-                {inProgressSession.workout?.name ?? 'Session'} started on{' '}
-                {new Intl.DateTimeFormat('en-US', {
+                {inProgressSession.workout?.name ?? '训练'} 开始于{' '}
+                {new Intl.DateTimeFormat('zh-CN', {
                   day: '2-digit',
                   month: '2-digit',
                   hour: '2-digit',
@@ -75,35 +75,35 @@ export default async function DashboardPage() {
             </CardHeader>
             <CardContent>
               <Button asChild className="min-h-tap w-full text-base">
-                <Link href={`/session/${inProgressSession.id}`}>Resume session</Link>
+                <Link href={`/session/${inProgressSession.id}`}>继续训练</Link>
               </Button>
             </CardContent>
           </Card>
         ) : !activeProgram ? (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">No active program</CardTitle>
+              <CardTitle className="text-base">无活跃计划</CardTitle>
               <CardDescription>
-                Activate a program to start a session.
+                请激活一个训练计划来开始训练
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button asChild>
-                <Link href="/programs">View programs</Link>
+                <Link href="/programs">查看计划</Link>
               </Button>
             </CardContent>
           </Card>
         ) : activeProgram.workouts.length === 0 ? (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Empty program</CardTitle>
+              <CardTitle className="text-base">空计划</CardTitle>
               <CardDescription>
-                {activeProgram.name} has no session configured.
+                {activeProgram.name} 还没有配置训练
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button asChild>
-                <Link href={`/programs/${activeProgram.id}`}>Configure program</Link>
+                <Link href={`/programs/${activeProgram.id}`}>配置计划</Link>
               </Button>
             </CardContent>
           </Card>
@@ -111,16 +111,16 @@ export default async function DashboardPage() {
           <>
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Start a session</CardTitle>
+                <CardTitle className="text-base">开始训练</CardTitle>
                 <CardDescription>
-                  Active program: {activeProgram.name}
+                  当前计划：{activeProgram.name}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Button asChild className="min-h-tap w-full text-base">
                   <Link href="/session/new">
                     <Play className="size-5" />
-                    <span className="ml-2">Choose a session</span>
+                    <span className="ml-2">选择训练</span>
                   </Link>
                 </Button>
               </CardContent>
@@ -128,7 +128,7 @@ export default async function DashboardPage() {
 
             <div>
               <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                Program sessions
+                计划训练
               </h2>
               <ul className="flex flex-col gap-2">
                 {activeProgram.workouts.map((w) => {
@@ -143,12 +143,12 @@ export default async function DashboardPage() {
                             <div className="mt-0.5 flex items-center gap-1.5 text-xs text-muted-foreground">
                               {day && <Badge variant="secondary">{day}</Badge>}
                               <span>
-                                {w._count.exercises} exercise{w._count.exercises > 1 ? 's' : ''}
+                                {w._count.exercises} 个动作
                               </span>
                               {empty && (
                                 <span className="flex items-center gap-1 text-amber-600">
                                   <AlertCircle className="size-3" />
-                                  empty
+                                  空
                                 </span>
                               )}
                             </div>

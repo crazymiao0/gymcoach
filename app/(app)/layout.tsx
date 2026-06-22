@@ -11,13 +11,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <SyncBootstrap />
-      <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur">
+      <header className="sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="flex items-center justify-between px-4 py-3">
-          <Link href="/" className="flex items-center gap-2">
-            <Dumbbell className="size-5" />
-            <span className="text-base font-semibold">力量训练日志</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10">
+              <Dumbbell className="size-4 text-primary" />
+            </div>
+            <span className="text-sm font-bold tracking-tight">力量训练日志</span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <OfflineIndicator />
             <ThemeToggle />
             <LogoutButton />
@@ -25,7 +27,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
         <NavLinks />
       </header>
-      {children}
+      <div className="animate-page-in flex-1">
+        {children}
+      </div>
     </div>
   );
 }

@@ -27,9 +27,9 @@ export function NavLinks() {
             key={link.href}
             href={link.href}
             className={cn(
-              'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+              'relative rounded-md px-3 py-2 text-sm font-medium transition-all',
               active
-                ? 'bg-secondary text-secondary-foreground'
+                ? 'text-primary after:absolute after:bottom-0 after:left-1/2 after:h-0.5 after:w-6 after:-translate-x-1/2 after:rounded-full after:bg-primary'
                 : 'text-muted-foreground hover:text-foreground',
             )}
           >

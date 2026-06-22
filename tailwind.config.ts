@@ -34,6 +34,10 @@ const config: Config = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
@@ -64,8 +68,21 @@ const config: Config = {
         tap: '4rem',
       },
       fontSize: {
-        // Pour le compteur de chrono géant
         timer: ['6rem', { lineHeight: '1', fontWeight: '700' }],
+      },
+      keyframes: {
+        'fade-in': {
+          from: { opacity: '0', transform: 'translateY(8px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+      },
+      animation: {
+        'page-in': 'fade-in 0.3s ease-out',
+        shimmer: 'shimmer 1.5s ease-in-out infinite',
       },
     },
   },

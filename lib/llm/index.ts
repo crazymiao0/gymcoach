@@ -1,5 +1,6 @@
 import { AnthropicProvider } from './anthropic';
 import { OpenRouterProvider } from './openrouter';
+import { DeepSeekProvider } from './deepseek';
 import { DemoProvider } from './demo';
 import type { LlmProvider } from './types';
 
@@ -12,6 +13,7 @@ export type LlmProviderId = LlmProvider['id'];
 export function resolveProviderId(): LlmProviderId {
   const raw = process.env.LLM_PROVIDER?.trim().toLowerCase();
   if (raw === 'openrouter') return 'openrouter';
+  if (raw === 'deepseek') return 'deepseek';
   if (raw === 'demo') return 'demo';
   return 'anthropic';
 }
@@ -19,6 +21,7 @@ export function resolveProviderId(): LlmProviderId {
 export function getLlmProvider(): LlmProvider {
   const id = resolveProviderId();
   if (id === 'openrouter') return new OpenRouterProvider();
+  if (id === 'deepseek') return new DeepSeekProvider();
   if (id === 'demo') return new DemoProvider();
   return new AnthropicProvider();
 }

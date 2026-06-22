@@ -40,6 +40,7 @@ model User {
   // column); the set/clear route bounds it to 500 chars.
   coachNote       String?
   createdAt    DateTime   @default(now())
+  cycleTemplates CycleTemplate[]
   programs      Program[]
   sessions      Session[]
   exercises     Exercise[]
@@ -152,20 +153,99 @@ enum ExerciseCategory {
   CARDIO
 }
 
-model Program {
-  id          String    @id @default(cuid())
+// ============================================================
+// V2: Cycle / Periodization System
+// ============================================================
+
+enum ExerciseRole {
+  PRIMARY_COMPOUND
+  SECONDARY_COMPOUND
+  ISOLATION
+}
+
+enum PhaseType {
+  HYPERTROPHY_1
+  HYPERTROPHY_2
+  LIGHT
+  STRENGTH
+  DELOAD
+}
+
+// A cycle template defines the structure of a training mesocycle.
+// Example: "学长4+1周期" with phases 增肌1/增肌2/轻训/增力/减载.
+model CycleTemplate {
+  id          String       @id @default(cuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
   name        String
   description String?
-  phase       String
-  isActive    Boolean   @default(false)
-  startDate   DateTime  @default(now())
-  endDate     DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  workouts    Workout[]
-  sessions    Session[]
+  isDefault   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  phases      CyclePhase[]
+  programs    Program[]
+
+  @@unique([userId, name])
+}
+
+// A phase within a cycle template. Each phase has a type, duration,
+// and an optional flag indicating whether it can be skipped.
+model CyclePhase {
+  id              String             @id @default(cuid())
+  templateId      String
+  template        CycleTemplate      @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  name            String             // 增肌周1, 增肌周2, 轻训周, 增力周, 减载周
+  phaseType       PhaseType
+  orderIndex      Int
+  durationWeeks   Int                @default(1)
+  isOptional      Boolean            @default(false) // true for deload
+  createdAt       DateTime           @default(now())
+  prescriptions   PhasePrescription[]
+  programs        Program[]
+
+  @@index([templateId, orderIndex])
+}
+
+// Phase prescription defines target reps, RPE, and volume/intensity
+// multipliers for each exercise role within a given phase.
+model PhasePrescription {
+  id            String       @id @default(cuid())
+  phaseId       String
+  phase         CyclePhase   @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+  exerciseRole  ExerciseRole
+  targetRepMin  Int
+  targetRepMax  Int
+  targetRpeMin  Float
+  targetRpeMax  Float
+  volumeMult    Float        @default(1.0)  // e.g. 0.6 for deload
+  intensityMult Float        @default(1.0)  // e.g. 0.8 for deload
+  createdAt     DateTime     @default(now())
+
+  @@unique([phaseId, exerciseRole])
+}
+
+// Updated Program model: now linked to a cycle template and phase.
+model Program {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id])
+  name            String
+  description     String?
+  // Cycle system (V2)
+  cycleTemplateId String?
+  cycleTemplate   CycleTemplate? @relation(fields: [cycleTemplateId], references: [id])
+  cyclePhaseId    String?
+  cyclePhase      CyclePhase?    @relation(fields: [cyclePhaseId], references: [id])
+  cycleWeek       Int            @default(1) // Current week within the current cycle
+  // Legacy field, kept for backwards compatibility
+  phase           String?
+  isActive        Boolean        @default(false)
+  startDate       DateTime       @default(now())
+  endDate         DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  workouts        Workout[]
+  sessions        Session[]
 }
 
 model Workout {
@@ -180,12 +260,13 @@ model Workout {
 }
 
 model ProgramExercise {
-  id            String   @id @default(cuid())
+  id            String       @id @default(cuid())
   workoutId     String
-  workout       Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  workout       Workout      @relation(fields: [workoutId], references: [id], onDelete: Cascade)
   exerciseId    String
-  exercise      Exercise @relation(fields: [exerciseId], references: [id])
+  exercise      Exercise     @relation(fields: [exerciseId], references: [id])
   order         Int
+  role          ExerciseRole? @default(PRIMARY_COMPOUND) // V2: primary/secondary/isolation
   targetSets    Int
   targetRepsMin Int
   targetRepsMax Int
@@ -193,9 +274,6 @@ model ProgramExercise {
   restSec       Int
   tempo         String?
   notes         String?
-  // Superset pairing (issue #146, slice 1, additive): exercises of the same
-  // workout sharing a group number form a superset; NULL = standalone. The
-  // stored number is arbitrary - A1/A2 labels renumber on read (lib/supersets).
   supersetGroup Int?
 }
 

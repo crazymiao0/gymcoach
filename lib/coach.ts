@@ -607,7 +607,7 @@ async function fetchActiveProgram(userId: string): Promise<ProgramSummary | null
   return {
     id: program.id,
     name: program.name,
-    phase: program.phase,
+    phase: program.phase ?? '',
     workouts: program.workouts.map((w) => ({
       name: w.name,
       exercises: w.exercises.map((pe) => ({

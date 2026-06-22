@@ -73,5 +73,5 @@ export const SESSION_COOKIE_OPTIONS = {
   sameSite: 'lax' as const,
   path: '/',
   maxAge: SESSION_TTL_SECONDS,
-  secure: process.env.NODE_ENV === 'production',
+  secure: false,
 };

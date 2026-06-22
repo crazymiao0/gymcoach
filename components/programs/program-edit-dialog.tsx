@@ -31,7 +31,7 @@ export function ProgramEditDialog({ open, onOpenChange, program }: Props) {
     resolver: zodResolver(programInputSchema),
     defaultValues: {
       name: program.name,
-      phase: program.phase,
+      phase: program.phase ?? undefined,
       description: program.description ?? '',
     },
   });
@@ -40,7 +40,7 @@ export function ProgramEditDialog({ open, onOpenChange, program }: Props) {
     if (open) {
       form.reset({
         name: program.name,
-        phase: program.phase,
+        phase: program.phase ?? undefined,
         description: program.description ?? '',
       });
     }

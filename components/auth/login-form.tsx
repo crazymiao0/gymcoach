@@ -61,8 +61,9 @@ export function LoginForm() {
     });
 
     if (res.ok) {
-      router.replace('/');
-      router.refresh();
+      // Use window.location for robust cross-browser redirect (avoids PWA/
+      // service-worker issues on mobile where router.replace may silently fail).
+      window.location.href = '/';
       return;
     }
 

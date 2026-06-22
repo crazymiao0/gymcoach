@@ -86,10 +86,10 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
     });
     if (!res.ok) {
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? 'Error');
+      toast.error(data?.error ?? '出错了');
       return;
     }
-    toast.success(mode === 'edit' ? 'Exercise updated.' : 'Exercise created.');
+    toast.success(mode === 'edit' ? '动作已更新。' : '动作已添加。');
     onOpenChange(false);
     router.refresh();
   }
@@ -99,16 +99,16 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {mode === 'edit' ? 'Edit exercise' : 'Add an exercise'}
+            {mode === 'edit' ? '编辑动作' : '添加动作'}
           </DialogTitle>
           <DialogDescription>
-            Enter the name, the muscle group and the category.
+            输入动作名称、肌群和类别。
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">名称</Label>
             <Input id="name" {...form.register('name')} />
             {form.formState.errors.name && (
               <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
@@ -117,7 +117,7 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="muscleGroup">Muscle group</Label>
+              <Label htmlFor="muscleGroup">肌群</Label>
               <Select
                 value={form.watch('muscleGroup')}
                 onValueChange={(v) => form.setValue('muscleGroup', v as ExerciseInput['muscleGroup'])}
@@ -136,7 +136,7 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">类别</Label>
               <Select
                 value={form.watch('category')}
                 onValueChange={(v) => form.setValue('category', v as ExerciseInput['category'])}
@@ -156,7 +156,7 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="defaultRestSec">Default rest (seconds)</Label>
+            <Label htmlFor="defaultRestSec">默认休息（秒）</Label>
             <Input
               id="defaultRestSec"
               type="number"
@@ -174,11 +174,9 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
 
           <label className="flex cursor-pointer items-start justify-between gap-3 rounded-md border border-border/40 p-3">
             <div className="min-w-0 space-y-0.5">
-              <p className="text-sm font-medium">Bodyweight exercise</p>
+              <p className="text-sm font-medium">自重动作</p>
               <p className="text-xs text-muted-foreground">
-                Pull-ups, dips, push-ups... The effective tonnage includes your
-                bodyweight. The load you enter represents the added weight
-                (negative for an assistance machine).
+                引体向上、臂屈伸、俯卧撑等……训练量包含自身体重。输入的负荷代表附加重量（辅助器械为负值）。
               </p>
             </div>
             <Switch
@@ -188,7 +186,7 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
           </label>
 
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes / instructions (optional)</Label>
+            <Label htmlFor="notes">备注/说明（可选）</Label>
             <Textarea id="notes" rows={3} {...form.register('notes')} />
           </div>
 
@@ -199,14 +197,14 @@ export function ExerciseFormDialog({ open, onOpenChange, mode, exercise }: Props
               onClick={() => onOpenChange(false)}
               disabled={form.formState.isSubmitting}
             >
-              Cancel
+              取消
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting
-                ? 'Saving...'
+                ? '保存中...'
                 : mode === 'edit'
-                  ? 'Save'
-                  : 'Create'}
+                  ? '保存'
+                  : '添加'}
             </Button>
           </DialogFooter>
         </form>

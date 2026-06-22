@@ -105,9 +105,9 @@ const ZONE_META: Record<
   VolumeLandmarkZone,
   { label: string; variant: 'default' | 'secondary' | 'destructive' }
 > = {
-  BELOW_MEV: { label: 'Below MEV', variant: 'secondary' },
-  WITHIN: { label: 'In range', variant: 'default' },
-  ABOVE_MRV: { label: 'Above MRV', variant: 'destructive' },
+  BELOW_MEV: { label: '低于MEV', variant: 'secondary' },
+  WITHIN: { label: '在范围内', variant: 'default' },
+  ABOVE_MRV: { label: '高于MRV', variant: 'destructive' },
 };
 
 function muscleGroupLabel(group: string) {
@@ -135,7 +135,7 @@ const MUSCLE_COLORS: Record<string, string> = {
 
 function shortDate(iso: string) {
   const d = new Date(iso);
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('zh-CN', {
     day: '2-digit',
     month: '2-digit',
   }).format(d);
@@ -237,14 +237,14 @@ export function ProgressDashboard({
       <Card>
         <CardHeader className="pb-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h2 className="text-base font-semibold">Max load and estimated 1RM</h2>
+            <h2 className="text-base font-semibold">最大负荷与预估1RM</h2>
             <Select
               value={selectedExerciseId ?? ''}
               onValueChange={selectExercise}
               disabled={isPending}
             >
               <SelectTrigger className="h-9 w-auto min-w-[12rem]">
-                <SelectValue placeholder="Choose an exercise" />
+                <SelectValue placeholder="选择动作" />
               </SelectTrigger>
               <SelectContent>
                 {exercises.map((e) => (
@@ -264,7 +264,7 @@ export function ProgressDashboard({
         <CardContent>
           {exerciseChartData.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              No data for this exercise.
+              暂无该动作数据。
             </p>
           ) : (
             <div className="h-64 w-full">
@@ -285,7 +285,7 @@ export function ProgressDashboard({
                   <Line
                     type="monotone"
                     dataKey="maxWeight"
-                    name={`Max load (${unitSuffix})`}
+                    name={`最大负荷 (${unitSuffix})`}
                     stroke="hsl(var(--primary))"
                     strokeWidth={2}
                     dot={{ r: 3 }}
@@ -293,7 +293,7 @@ export function ProgressDashboard({
                   <Line
                     type="monotone"
                     dataKey="estimated1RM"
-                    name={`Estimated 1RM (${unitSuffix})`}
+                    name={`预估1RM (${unitSuffix})`}
                     stroke="#a855f7"
                     strokeDasharray="4 4"
                     strokeWidth={2}
@@ -315,24 +315,23 @@ export function ProgressDashboard({
           <CardContent className="pt-6">
             <details className="group">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-2">
-                <span className="text-base font-semibold">Training loads</span>
+                <span className="text-base font-semibold">训练负荷表</span>
                 <span className="text-xs text-muted-foreground group-open:hidden">
-                  Show
+                  显示
                 </span>
                 <span className="hidden text-xs text-muted-foreground group-open:inline">
-                  Hide
+                  隐藏
                 </span>
               </summary>
               <p className="mt-1 text-xs text-muted-foreground">
-                Percentages of your best estimated 1RM ({toDisplay(selectedBestE1RM)}{' '}
-                {unitSuffix}), rounded to a loadable increment. Planning aid, not a
-                prescription.
+                以最佳预估1RM ({toDisplay(selectedBestE1RM)}{' '}
+                {unitSuffix}) 的百分比计算，四舍五入到可加载的增量。规划辅助，非硬性规定。
               </p>
               <table className="mt-3 w-full text-sm">
                 <thead>
                   <tr className="border-b text-left text-xs uppercase tracking-wide text-muted-foreground">
-                    <th className="py-2 font-medium">% of e1RM</th>
-                    <th className="py-2 text-right font-medium">Load</th>
+                    <th className="py-2 font-medium">占e1RM百分比</th>
+                    <th className="py-2 text-right font-medium">负荷</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -366,15 +365,15 @@ export function ProgressDashboard({
       {/* Stacked weekly volume per muscle group */}
       <Card>
         <CardHeader className="pb-3">
-          <h2 className="text-base font-semibold">Weekly volume per muscle group</h2>
+          <h2 className="text-base font-semibold">每周各肌群训练量</h2>
           <p className="text-xs text-muted-foreground">
-            Volume = sum of load × reps (working sets only).
+            训练量 = 负荷 × 次数之和（仅正式组）。
           </p>
         </CardHeader>
         <CardContent>
           {weeklyChartData.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              No weekly data.
+              暂无每周数据。
             </p>
           ) : (
             <div className="h-72 w-full">
@@ -412,11 +411,10 @@ export function ProgressDashboard({
       {stalledLifts.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
-            <h2 className="text-base font-semibold">Stalled lifts</h2>
+            <h2 className="text-base font-semibold">停滞动作</h2>
             <p className="text-xs text-muted-foreground">
-              No estimated 1RM progress over the last {STALL_LOOKBACK_SESSIONS}{' '}
-              sessions. Consider a deload, a rep-range change, or swapping the
-              exercise.
+              在过去{STALL_LOOKBACK_SESSIONS}次训练中预估1RM无进展。
+              考虑减载、改变次数范围或更换动作。
             </p>
           </CardHeader>
           <CardContent>
@@ -440,12 +438,12 @@ export function ProgressDashboard({
       {volumeLandmarks && landmarkRows.length > 0 && (
         <Card>
           <CardHeader className="pb-3">
-            <h2 className="text-base font-semibold">Volume landmarks</h2>
+            <h2 className="text-base font-semibold">容量参考</h2>
             <p className="text-xs text-muted-foreground">
-              Working sets in {shortLabelFromWeekKey(volumeLandmarks.weekKey)}{' '}
-              vs your reference band (MEV-MRV) per muscle group. Defaults to{' '}
-              {defaultBand.mev}-{defaultBand.mrv} sets/week; edit a group to set
-              your own. General hypertrophy heuristic, not a prescription.
+              第{shortLabelFromWeekKey(volumeLandmarks.weekKey)}的正式组数
+              与各肌群的参考区间（MEV-MRV）对比。默认为{' '}
+              {defaultBand.mev}-{defaultBand.mrv} 组/周；可编辑自定义值。
+              一般增肌参考，非硬性规定。
             </p>
           </CardHeader>
           <CardContent>
@@ -463,17 +461,17 @@ export function ProgressDashboard({
                       </span>
                       <span className="text-xs text-muted-foreground">
                         {row.mev}-{row.mrv}
-                        {row.custom ? ' (custom)' : ' (default)'}
+                        {row.custom ? '（自定义）' : '（默认）'}
                       </span>
                     </span>
                     <span className="flex items-center gap-2">
                       <span className="text-muted-foreground">
-                        {row.sets} {row.sets === 1 ? 'set' : 'sets'}
+                        {row.sets} 组
                       </span>
                       {/* Weekly training frequency (issue #225): distinct
                           training days for this muscle in the same week. */}
                       <span className="text-xs text-muted-foreground">
-                        {row.frequency}x/week
+                        {row.frequency}次/周
                       </span>
                       <Badge variant={meta.variant}>{meta.label}</Badge>
                       <VolumeTargetEditor
@@ -497,23 +495,23 @@ export function ProgressDashboard({
       {/* Progress recap table */}
       <Card>
         <CardHeader className="pb-3">
-          <h2 className="text-base font-semibold">Last 12 weeks recap</h2>
+          <h2 className="text-base font-semibold">近12周回顾</h2>
         </CardHeader>
         <CardContent>
           {recap.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              No exercise with enough data.
+              暂无足够数据的动作。
             </p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b text-left text-xs uppercase tracking-wide text-muted-foreground">
-                    <th className="py-2 font-medium">Exercise</th>
-                    <th className="py-2 font-medium">Sessions</th>
-                    <th className="py-2 font-medium">Load start → end</th>
-                    <th className="py-2 font-medium">Δ load</th>
-                    <th className="py-2 font-medium">Δ 1RM</th>
+                    <th className="py-2 font-medium">动作</th>
+                    <th className="py-2 font-medium">训练次数</th>
+                    <th className="py-2 font-medium">起始→当前负荷</th>
+                    <th className="py-2 font-medium">负荷变化</th>
+                    <th className="py-2 font-medium">1RM变化</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -526,9 +524,9 @@ export function ProgressDashboard({
                             <Badge
                               variant="secondary"
                               className="text-[10px] font-medium uppercase tracking-wide text-amber-700 dark:text-amber-400"
-                              title={`No estimated 1RM progress over the last ${STALL_LOOKBACK_SESSIONS} sessions.`}
+                              title={`过去${STALL_LOOKBACK_SESSIONS}次训练中预估1RM无进展。`}
                             >
-                              Stalled
+                              停滞
                             </Badge>
                           )}
                         </div>

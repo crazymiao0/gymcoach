@@ -33,104 +33,98 @@ export function CoachContextCard({ summary }: Props) {
             <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
           )}
           <Eye className="size-4 text-primary" />
-          <h2 className="text-base font-semibold">What your coach sees</h2>
+          <h2 className="text-base font-semibold">AI教练能看到的信息</h2>
         </button>
         {!open && (
           <p className="pl-6 text-xs text-muted-foreground">
-            The training context behind every debrief. Tap to expand.
+            每次复盘背后的训练背景信息。点击展开。
           </p>
         )}
       </CardHeader>
       {open && (
         <CardContent className="flex flex-col gap-4 text-sm">
-          <Section title="Training history">
+          <Section title="训练历史">
             {summary.weeksOfHistory > 0 ? (
               <p>
-                {summary.weeksOfHistory} week{summary.weeksOfHistory === 1 ? '' : 's'} of
-                recent history across {summary.exercisesTracked} exercise
-                {summary.exercisesTracked === 1 ? '' : 's'}.
+                近{summary.weeksOfHistory}周的训练历史，涵盖{summary.exercisesTracked}个动作。
               </p>
             ) : (
               <p className="text-muted-foreground">
-                No logged sessions yet - the coach starts learning from your first workout.
+                尚未记录训练——教练将从你的第一次训练开始学习。
               </p>
             )}
           </Section>
 
-          <Section title="Goals">
+          <Section title="目标">
             {summary.goals.length > 0 ? (
               <ul className="flex flex-col gap-1">
                 {summary.goals.map((g) => (
                   <li key={`${g.exerciseName}-${g.targetWeight}-${g.targetReps}`}>
-                    {g.exerciseName}: {g.targetWeight} kg x {g.targetReps}{' '}
+                    {g.exerciseName}: {g.targetWeight} 公斤 x {g.targetReps}{' '}
                     {g.achieved ? (
-                      <Badge variant="secondary">achieved</Badge>
+                      <Badge variant="secondary">已达成</Badge>
                     ) : (
-                      <span className="text-muted-foreground">({g.progressPct}% there)</span>
+                      <span className="text-muted-foreground">（{g.progressPct}%）</span>
                     )}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-muted-foreground">No exercise goals set.</p>
+              <p className="text-muted-foreground">尚未设定动作目标。</p>
             )}
           </Section>
 
-          <Section title="Fatigue">
+          <Section title="疲劳">
             {summary.stalledExercises.length > 0 ? (
-              <p>Stalled lifts: {summary.stalledExercises.join(', ')}.</p>
+              <p>停滞动作：{summary.stalledExercises.join('、')}。</p>
             ) : (
-              <p className="text-muted-foreground">No stalled lifts detected.</p>
+              <p className="text-muted-foreground">未检测到停滞动作。</p>
             )}
             {summary.deloadActive ? (
-              <p>A planned deload week is active.</p>
+              <p>减载周正在进行中。</p>
             ) : summary.deloadRecommended ? (
               <p>
-                Deload recommended
+                建议减载
                 {summary.deloadReasons.length > 0
-                  ? `: ${summary.deloadReasons.join('; ')}`
+                  ? `：${summary.deloadReasons.join('；')}`
                   : ''}
-                .
+                。
               </p>
             ) : (
-              <p className="text-muted-foreground">No deload recommended.</p>
+              <p className="text-muted-foreground">无需减载。</p>
             )}
           </Section>
 
-          <Section title="Conditioning">
+          <Section title="有氧训练">
             <p>
-              This week: {summary.conditioning.currentMinutes} min
+              本周：{summary.conditioning.currentMinutes} 分钟
               {summary.conditioning.currentKm > 0
-                ? ` · ${summary.conditioning.currentKm} km`
+                ? ` · ${summary.conditioning.currentKm} 公里`
                 : ''}
-              {` · ${summary.conditioning.currentSessions} session${
-                summary.conditioning.currentSessions === 1 ? '' : 's'
-              }`}{' '}
+              {` · ${summary.conditioning.currentSessions} 次`}{' '}
               <span className="text-muted-foreground">
-                (target {summary.conditioning.weeklyTargetMin} min/week)
+                （目标 {summary.conditioning.weeklyTargetMin} 分钟/周）
               </span>
             </p>
           </Section>
 
-          <Section title="Readiness">
+          <Section title="准备度">
             {summary.readiness ? (
               <p>
-                Last check-in{' '}
+                最近打卡{' '}
                 {summary.readiness.daysAgo === 0
-                  ? 'today'
-                  : `${summary.readiness.daysAgo} day${
-                      summary.readiness.daysAgo === 1 ? '' : 's'
-                    } ago`}
-                : readiness {summary.readiness.readiness}/5, sleep{' '}
-                {summary.readiness.sleepQuality}/5.
+                  ? '今天'
+                  : `${summary.readiness.daysAgo} 天前`}
+                ：准备度 {summary.readiness.readiness}/5，睡眠{' '}
+                {summary.readiness.sleepQuality}/5。
               </p>
             ) : (
-              <p className="text-muted-foreground">No readiness check-in in the last 7 days.</p>
+              <p className="text-muted-foreground">最近7天无准备度打卡记录。</p>
             )}
           </Section>
 
           <p className="border-t pt-3 text-xs text-muted-foreground">
-            A compact summary like this, plus your recent set-by-set training logs, is what the AI receives - never your account data or anything outside your training history.
+            AI收到的只是这样的简短摘要及你近期的逐组训练记录——从不包含你的账户数据或训练历史之外的任何信息。
           </p>
         </CardContent>
       )}

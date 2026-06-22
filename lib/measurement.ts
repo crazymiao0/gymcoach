@@ -31,19 +31,19 @@ export const MEASUREMENT_SITES: BodyMeasurementSite[] = [
 
 // Human-readable label per site, for the selector and the list rows.
 const SITE_LABELS: Record<BodyMeasurementSite, string> = {
-  WAIST: 'Waist',
-  HIPS: 'Hips',
-  CHEST: 'Chest',
-  SHOULDERS: 'Shoulders',
-  NECK: 'Neck',
-  ARM_LEFT: 'Arm (left)',
-  ARM_RIGHT: 'Arm (right)',
-  FOREARM_LEFT: 'Forearm (left)',
-  FOREARM_RIGHT: 'Forearm (right)',
-  THIGH_LEFT: 'Thigh (left)',
-  THIGH_RIGHT: 'Thigh (right)',
-  CALF_LEFT: 'Calf (left)',
-  CALF_RIGHT: 'Calf (right)',
+  WAIST: '腰围',
+  HIPS: '臀围',
+  CHEST: '胸围',
+  SHOULDERS: '肩宽',
+  NECK: '颈围',
+  ARM_LEFT: '左臂',
+  ARM_RIGHT: '右臂',
+  FOREARM_LEFT: '左前臂',
+  FOREARM_RIGHT: '右前臂',
+  THIGH_LEFT: '左腿',
+  THIGH_RIGHT: '右腿',
+  CALF_LEFT: '左小腿',
+  CALF_RIGHT: '右小腿',
 };
 
 export function measurementSiteLabel(site: BodyMeasurementSite): string {
@@ -71,5 +71,5 @@ export function roundLength(value: number): number {
 // Formats a stored cm value for display: "82.5 cm" or "32.5 in".
 export function formatLength(valueCm: number, metric: boolean): string {
   const shown = roundLength(toDisplayLength(valueCm, metric));
-  return metric ? `${shown} cm` : `${shown} in`;
+  return metric ? `${shown} 厘米` : `${shown} 英寸`;
 }

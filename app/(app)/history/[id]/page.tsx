@@ -102,7 +102,7 @@ export default async function HistorySessionPage(props: Params) {
           <Button asChild variant="ghost" size="sm" className="-ml-2">
             <Link href="/history">
               <ArrowLeft className="size-4" />
-              <span className="ml-1">History</span>
+              <span className="ml-1">历史记录</span>
             </Link>
           </Button>
           <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ export default async function HistorySessionPage(props: Params) {
               <Button asChild variant="outline" size="sm">
                 <a href={`/api/cardio/tcx?sessionId=${session.id}`} download>
                   <Download className="size-4" />
-                  <span className="ml-1">Download .tcx</span>
+                  <span className="ml-1">下载 .tcx</span>
                 </a>
               </Button>
             )}
@@ -125,7 +125,7 @@ export default async function HistorySessionPage(props: Params) {
         <Card>
           <CardHeader className="pb-3">
             <h1 className="text-2xl font-bold tracking-tight">
-              {session.workout?.name ?? 'Free session'}
+              {session.workout?.name ?? '自由训练'}
             </h1>
             <div className="mt-1 flex flex-wrap gap-1.5">
               {session.program && (
@@ -133,7 +133,7 @@ export default async function HistorySessionPage(props: Params) {
               )}
               <Badge variant="outline" className="gap-1">
                 <Calendar className="size-3" />
-                {new Intl.DateTimeFormat('en-US', {
+                {new Intl.DateTimeFormat('zh-CN', {
                   day: '2-digit',
                   month: 'long',
                   year: 'numeric',
@@ -144,16 +144,16 @@ export default async function HistorySessionPage(props: Params) {
               {durationMin != null && (
                 <Badge variant="outline" className="gap-1">
                   <Clock className="size-3" />
-                  {durationMin} min
+                  {durationMin} 分钟
                 </Badge>
               )}
             </div>
           </CardHeader>
           <CardContent className="grid grid-cols-2 gap-3 pt-0 text-sm sm:grid-cols-3">
-            <Stat label="Sets" value={String(workingSetCount)} />
-            <Stat label="Exercises" value={String(setsByExercise.size)} />
+            <Stat label="组数" value={String(workingSetCount)} />
+            <Stat label="动作数" value={String(setsByExercise.size)} />
             <Stat
-              label="Total volume"
+              label="总训练量"
               value={formatWeight(volume, unit, { decimals: 0 })}
             />
           </CardContent>
@@ -163,7 +163,7 @@ export default async function HistorySessionPage(props: Params) {
           <Card>
             <CardContent className="py-4 text-sm">
               <p className="mb-1 text-xs uppercase tracking-wide text-muted-foreground">
-                Notes
+                备注
               </p>
               <p className="whitespace-pre-line">{session.notes}</p>
             </CardContent>
@@ -173,7 +173,7 @@ export default async function HistorySessionPage(props: Params) {
         {exerciseOrder.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center text-sm text-muted-foreground">
-              No set recorded.
+              暂无组记录。
             </CardContent>
           </Card>
         ) : (
@@ -221,10 +221,10 @@ export default async function HistorySessionPage(props: Params) {
                       </div>
                       <div className="mt-1 flex gap-3 text-xs text-muted-foreground">
                         {cardioTotal ? (
-                          <span>Total: {cardioTotal}</span>
+                          <span>总计: {cardioTotal}</span>
                         ) : (
                           <span>
-                            Volume:{' '}
+                            训练量:{' '}
                             {formatWeight(exoVolume, unit, {
                               decimals: 0,
                               group: false,
@@ -233,7 +233,7 @@ export default async function HistorySessionPage(props: Params) {
                         )}
                         {e1rm > 0 && (
                           <span>
-                            Est. 1RM:{' '}
+                            预估1RM:{' '}
                             {formatWeight(e1rm, unit, {
                               decimals: 1,
                               fixed: true,
@@ -249,11 +249,11 @@ export default async function HistorySessionPage(props: Params) {
                           <thead>
                             <tr className="border-b text-left text-xs uppercase tracking-wide text-muted-foreground">
                               <th className="py-1.5 font-medium">#</th>
-                              <th className="py-1.5 font-medium">Duration</th>
-                              <th className="py-1.5 font-medium">Distance</th>
-                              <th className="py-1.5 font-medium">Pace</th>
-                              <th className="py-1.5 font-medium">Avg HR</th>
-                              <th className="py-1.5 font-medium">Max HR</th>
+                              <th className="py-1.5 font-medium">时长</th>
+                              <th className="py-1.5 font-medium">距离</th>
+                              <th className="py-1.5 font-medium">配速</th>
+                              <th className="py-1.5 font-medium">平均心率</th>
+                              <th className="py-1.5 font-medium">最大心率</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -275,10 +275,10 @@ export default async function HistorySessionPage(props: Params) {
                                 </td>
                                 <td className="py-1.5">{pace ?? '-'}</td>
                                 <td className="py-1.5">
-                                  {s.avgHr != null ? `${s.avgHr} bpm` : '-'}
+                                  {s.avgHr != null ? `${s.avgHr} 次/分` : '-'}
                                 </td>
                                 <td className="py-1.5">
-                                  {s.maxHr != null ? `${s.maxHr} bpm` : '-'}
+                                  {s.maxHr != null ? `${s.maxHr} 次/分` : '-'}
                                 </td>
                               </tr>
                               );
@@ -300,10 +300,10 @@ export default async function HistorySessionPage(props: Params) {
                         <thead>
                           <tr className="border-b text-left text-xs uppercase tracking-wide text-muted-foreground">
                             <th className="py-1.5 font-medium">#</th>
-                            <th className="py-1.5 font-medium">Load</th>
-                            <th className="py-1.5 font-medium">Reps</th>
-                            <th className="py-1.5 font-medium">RIR</th>
-                            <th className="py-1.5 font-medium">Type</th>
+                            <th className="py-1.5 font-medium">负荷</th>
+                            <th className="py-1.5 font-medium">次数</th>
+                            <th className="py-1.5 font-medium">留次(RIR)</th>
+                            <th className="py-1.5 font-medium">类型</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -334,11 +334,11 @@ export default async function HistorySessionPage(props: Params) {
                                           withUnit: false,
                                           group: false,
                                         })}{' '}
-                                        ext)
+                                        附加)
                                       </span>
                                     </span>
                                   ) : effective === 0 ? (
-                                    'BW'
+                                    '自重'
                                   ) : (
                                     formatWeight(effective, unit, {
                                       decimals: 2,
@@ -350,10 +350,10 @@ export default async function HistorySessionPage(props: Params) {
                                 <td className="py-1.5">{s.rir ?? '-'}</td>
                                 <td className="py-1.5 text-xs">
                                   {s.isWarmup
-                                    ? 'Warmup'
+                                    ? '热身组'
                                     : s.isDropSet
-                                      ? 'Drop set'
-                                      : 'Working'}
+                                      ? '递减组'
+                                      : '正式组'}
                                 </td>
                               </tr>
                             );
@@ -367,7 +367,7 @@ export default async function HistorySessionPage(props: Params) {
                             .filter((s) => s.notes)
                             .map((s) => (
                               <p key={s.id}>
-                                <span className="font-medium">Set {s.setNumber}: </span>
+                                <span className="font-medium">第{s.setNumber}组: </span>
                                 {s.notes}
                               </p>
                             ))}

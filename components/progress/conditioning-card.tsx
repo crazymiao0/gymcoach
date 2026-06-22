@@ -29,7 +29,7 @@ interface Props {
 }
 
 function weekLabel(iso: string): string {
-  return new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit' }).format(
+  return new Intl.DateTimeFormat('zh-CN', { day: '2-digit', month: '2-digit' }).format(
     new Date(iso),
   );
 }
@@ -52,11 +52,11 @@ export function ConditioningCard({ weeks }: Props) {
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <HeartPulse className="size-4 text-primary" />
-          <h2 className="text-base font-semibold">Conditioning</h2>
+          <h2 className="text-base font-semibold">有氧训练</h2>
         </div>
         <p className="text-xs text-muted-foreground">
-          Weekly cardio minutes vs the {WEEKLY_CONDITIONING_TARGET_MIN} min/week guideline
-          (moderate activity). Distance and sessions in the tooltip.
+          每周有氧时长对比{WEEKLY_CONDITIONING_TARGET_MIN}分钟/周指南
+          （中等强度）。距离和次数显示在提示框中。
         </p>
       </CardHeader>
       <CardContent>
@@ -74,19 +74,19 @@ export function ConditioningCard({ weeks }: Props) {
                   fontSize: 12,
                 }}
                 formatter={(value, name) => {
-                  if (name === 'minutes') return [`${value ?? 0} min`, 'Duration'];
+                  if (name === 'minutes') return [`${value ?? 0} 分钟`, '时长'];
                   return [value ?? '', name];
                 }}
                 labelFormatter={(label, payload) => {
                   const p = payload?.[0]?.payload as ConditioningWeekView | undefined;
                   if (!p) return label;
                   const extras = [
-                    p.distanceKm > 0 ? `${p.distanceKm} km` : null,
-                    `${p.sessions} session${p.sessions === 1 ? '' : 's'}`,
+                    p.distanceKm > 0 ? `${p.distanceKm} 公里` : null,
+                    `${p.sessions} 次`,
                   ]
                     .filter(Boolean)
                     .join(' · ');
-                  return `Week of ${label} · ${extras}`;
+                  return `${label}周 · ${extras}`;
                 }}
               />
               <ReferenceLine
@@ -94,7 +94,7 @@ export function ConditioningCard({ weeks }: Props) {
                 stroke="hsl(var(--primary))"
                 strokeDasharray="4 4"
                 label={{
-                  value: `${WEEKLY_CONDITIONING_TARGET_MIN} min`,
+                  value: `${WEEKLY_CONDITIONING_TARGET_MIN} 分钟`,
                   position: 'insideTopRight',
                   fontSize: 11,
                   fill: 'hsl(var(--primary))',
@@ -105,12 +105,12 @@ export function ConditioningCard({ weeks }: Props) {
           </ResponsiveContainer>
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          This week: {current?.minutes ?? 0} min
-          {current && current.distanceKm > 0 ? ` · ${current.distanceKm} km` : ''}
-          {current ? ` · ${current.sessions} session${current.sessions === 1 ? '' : 's'}` : ''}
+          本周：{current?.minutes ?? 0} 分钟
+          {current && current.distanceKm > 0 ? ` · ${current.distanceKm} 公里` : ''}
+          {current ? ` · ${current.sessions} 次` : ''}
           {' · '}
-          {weeks.length}-week total: {totalMinutes} min
-          {totalKm > 0 ? `, ${totalKm} km` : ''}.
+          {weeks.length}周总计：{totalMinutes} 分钟
+          {totalKm > 0 ? `，${totalKm} 公里` : ''}。
         </p>
       </CardContent>
     </Card>

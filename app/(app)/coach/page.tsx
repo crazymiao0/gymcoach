@@ -85,9 +85,9 @@ export default async function CoachPage() {
         <div className="flex items-center gap-3">
           <Sparkles className="size-6" />
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Coach</h1>
+            <h1 className="text-2xl font-bold tracking-tight">AI教练</h1>
             <p className="text-xs text-muted-foreground">
-              Weekly AI debrief of your training.
+              每周AI训练复盘。
             </p>
           </div>
         </div>

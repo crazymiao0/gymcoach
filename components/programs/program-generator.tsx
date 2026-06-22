@@ -38,7 +38,7 @@ export function ProgramGenerator() {
       const j = (await res.json()) as { program: Draft };
       setDraft(j.program);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Generation failed.');
+      setError(e instanceof Error ? e.message : '生成失败。');
     } finally {
       setGenerating(false);
     }
@@ -59,11 +59,11 @@ export function ProgramGenerator() {
         throw new Error(j.error ?? `Error ${res.status}`);
       }
       const j = (await res.json()) as { id: string };
-      toast.success('Program created.');
+      toast.success('方案已创建。');
       router.push(`/programs/${j.id}`);
       router.refresh();
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Save failed.');
+      setError(e instanceof Error ? e.message : '保存失败。');
       setSaving(false);
     }
   }
@@ -121,11 +121,10 @@ export function ProgramGenerator() {
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
             <Wand2 className="size-5" />
-            <h2 className="text-base font-semibold">Generate a program with AI</h2>
+            <h2 className="text-base font-semibold">AI生成训练方案</h2>
           </div>
           <p className="text-xs text-muted-foreground">
-            Describe your goal, schedule, experience and any constraints. You can
-            edit the result before saving.
+            描述你的目标、日程、经验及任何限制条件。保存前可编辑结果。
           </p>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
@@ -133,7 +132,7 @@ export function ProgramGenerator() {
             value={goal}
             onChange={(e) => setGoal(e.target.value)}
             rows={4}
-            placeholder="e.g. Hypertrophy, 4 sessions/week, upper/lower split, I have a bad shoulder so go easy on overhead pressing."
+            placeholder="例如：增肌、每周4次、上下肢分化、肩膀不好所以少做推举类动作。"
           />
           <div>
             <Button
@@ -145,12 +144,12 @@ export function ProgramGenerator() {
               {generating ? (
                 <>
                   <Loader2 className="size-4 animate-spin" />
-                  <span className="ml-2">Generating (10-30s)...</span>
+                  <span className="ml-2">生成中（10-30秒）...</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="size-4" />
-                  <span className="ml-2">Generate</span>
+                  <span className="ml-2">生成</span>
                 </>
               )}
             </Button>
@@ -162,22 +161,22 @@ export function ProgramGenerator() {
       {draft && (
         <Card>
           <CardHeader className="pb-3">
-            <h2 className="text-base font-semibold">Review and edit</h2>
+            <h2 className="text-base font-semibold">审查并编辑</h2>
             <p className="text-xs text-muted-foreground">
-              Tweak anything, then create the program. It starts inactive.
+              可随意调整，然后创建方案。创建后默认为停用状态。
             </p>
           </CardHeader>
           <CardContent className="flex flex-col gap-5">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label className="text-sm">Program name</Label>
+                <Label className="text-sm">方案名称</Label>
                 <Input
                   value={draft.name}
                   onChange={(e) => patchProgram({ name: e.target.value })}
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-sm">Phase</Label>
+                <Label className="text-sm">阶段</Label>
                 <Input
                   value={draft.phase}
                   onChange={(e) => patchProgram({ phase: e.target.value })}
@@ -185,7 +184,7 @@ export function ProgramGenerator() {
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-sm">Description</Label>
+              <Label className="text-sm">描述</Label>
               <Textarea
                 value={draft.description ?? ''}
                 rows={2}
@@ -206,7 +205,7 @@ export function ProgramGenerator() {
                     variant="ghost"
                     size="icon"
                     onClick={() => removeWorkout(wi)}
-                    aria-label="Remove workout"
+                    aria-label="移除训练课"
                   >
                     <Trash2 className="size-4 text-rose-600" />
                   </Button>
@@ -229,24 +228,24 @@ export function ProgramGenerator() {
                           variant="ghost"
                           size="icon"
                           onClick={() => removeExercise(wi, ei)}
-                          aria-label="Remove exercise"
+                          aria-label="移除动作"
                         >
                           <Trash2 className="size-4 text-rose-600" />
                         </Button>
                       </div>
                       <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
                         <NumField
-                          label="Sets"
+                          label="组数"
                           value={ex.targetSets}
                           onChange={(v) => patchExercise(wi, ei, { targetSets: num(v) })}
                         />
                         <NumField
-                          label="Reps min"
+                          label="最少次数"
                           value={ex.targetRepsMin}
                           onChange={(v) => patchExercise(wi, ei, { targetRepsMin: num(v) })}
                         />
                         <NumField
-                          label="Reps max"
+                          label="最多次数"
                           value={ex.targetRepsMax}
                           onChange={(v) => patchExercise(wi, ei, { targetRepsMax: num(v) })}
                         />
@@ -256,7 +255,7 @@ export function ProgramGenerator() {
                           onChange={(v) => patchExercise(wi, ei, { targetRIR: num(v) })}
                         />
                         <NumField
-                          label="Rest (s)"
+                          label="休息（秒）"
                           value={ex.restSec}
                           onChange={(v) => patchExercise(wi, ei, { restSec: num(v) })}
                         />
@@ -279,7 +278,7 @@ export function ProgramGenerator() {
                 ) : (
                   <Sparkles className="size-4" />
                 )}
-                <span className="ml-2">Create program</span>
+                <span className="ml-2">创建方案</span>
               </Button>
             </div>
           </CardContent>

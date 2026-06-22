@@ -21,22 +21,22 @@ export default async function ProgramsPage() {
       <div className="mx-auto flex max-w-3xl flex-col gap-6">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Programs</h1>
+            <h1 className="text-2xl font-bold tracking-tight">训练方案</h1>
             <p className="text-sm text-muted-foreground">
-              {programs.length} program{programs.length > 1 ? 's' : ''}.
+              共 {programs.length} 个方案
             </p>
           </div>
           <div className="flex gap-2">
             <Button asChild variant="outline" className="min-h-tap">
               <Link href="/programs/generate">
                 <Wand2 className="size-4" />
-                <span className="ml-2">Generate with AI</span>
+                <span className="ml-2">AI生成</span>
               </Link>
             </Button>
             <Button asChild className="min-h-tap">
               <Link href="/programs/new">
                 <Plus className="size-4" />
-                <span className="ml-2">Create</span>
+                <span className="ml-2">新建</span>
               </Link>
             </Button>
           </div>
@@ -45,9 +45,9 @@ export default async function ProgramsPage() {
         {programs.length === 0 ? (
           <Card>
             <CardHeader>
-              <CardTitle>No program</CardTitle>
+              <CardTitle>暂无方案</CardTitle>
               <CardDescription>
-                Create your first program so you can start a session.
+                创建你的第一个训练方案，然后开始训练吧。
               </CardDescription>
             </CardHeader>
           </Card>
@@ -60,11 +60,11 @@ export default async function ProgramsPage() {
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between gap-3">
                         <CardTitle className="text-base">{p.name}</CardTitle>
-                        {p.isActive && <Badge>Active</Badge>}
+                        {p.isActive && <Badge>活跃中</Badge>}
                       </div>
                       <CardDescription className="text-xs">
-                        {p.phase} · started on{' '}
-                        {new Intl.DateTimeFormat('en-US', {
+                        {p.phase} · 开始于{' '}
+                        {new Intl.DateTimeFormat('zh-CN', {
                           day: '2-digit',
                           month: '2-digit',
                           year: 'numeric',
@@ -72,8 +72,8 @@ export default async function ProgramsPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="pt-0 text-xs text-muted-foreground">
-                      {p._count.workouts} session{p._count.workouts > 1 ? 's' : ''} ·{' '}
-                      {p._count.sessions} logged session{p._count.sessions > 1 ? 's' : ''}
+                      {p._count.workouts} 个训练课 ·{' '}
+                      已训练 {p._count.sessions} 次
                     </CardContent>
                   </Card>
                 </Link>

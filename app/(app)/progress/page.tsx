@@ -439,7 +439,7 @@ export default async function ProgressPage(
       <div className="mx-auto flex max-w-3xl flex-col gap-6">
         <div className="flex items-center gap-3">
           <TrendingUp className="size-6" />
-          <h1 className="text-2xl font-bold tracking-tight">Progress</h1>
+          <h1 className="text-2xl font-bold tracking-tight">进度</h1>
         </div>
 
         <BodyweightCard
@@ -476,9 +476,9 @@ export default async function ProgressPage(
         {exercisesWithSets.length === 0 ? (
           <EmptyState
             icon={TrendingUp}
-            title="No progress to show yet"
-            description={`Log a few sessions and your charts and PRs will appear here, tracking the last ${RECENT_WEEKS} weeks.`}
-            action={{ label: 'Log your first session', href: '/session/new' }}
+            title="暂无进度数据"
+            description={`记录几次训练后，图表和纪录将显示在这里，追踪近${RECENT_WEEKS}周的数据。`}
+            action={{ label: '开始第一次训练', href: '/session/new' }}
           />
         ) : (
           <>

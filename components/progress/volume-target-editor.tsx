@@ -61,15 +61,15 @@ export function VolumeTargetEditor({
     const m = Number(mevValue);
     const r = Number(mrvValue);
     if (!Number.isInteger(m) || !Number.isInteger(r)) {
-      setError('Enter whole numbers of sets.');
+      setError('请输入整数组数。');
       return null;
     }
     if (m < 1 || m > VOLUME_TARGET_MAX || r < 1 || r > VOLUME_TARGET_MAX) {
-      setError(`Values must be between 1 and ${VOLUME_TARGET_MAX} sets.`);
+      setError(`数值必须在 1 到 ${VOLUME_TARGET_MAX} 组之间。`);
       return null;
     }
     if (r <= m) {
-      setError('MRV must be greater than MEV.');
+      setError('MRV 必须大于 MEV。');
       return null;
     }
     return { mev: m, mrv: r };
@@ -87,13 +87,13 @@ export function VolumeTargetEditor({
         body: JSON.stringify({ muscleGroup, mev: parsed.mev, mrv: parsed.mrv }),
       });
       if (!res.ok) {
-        setError('Could not save the target.');
+        setError('无法保存目标。');
         return;
       }
       setOpen(false);
       router.refresh();
     } catch {
-      setError('Could not save the target.');
+      setError('无法保存目标。');
     } finally {
       setBusy(false);
     }
@@ -109,13 +109,13 @@ export function VolumeTargetEditor({
         body: JSON.stringify({ muscleGroup }),
       });
       if (!res.ok) {
-        setError('Could not reset the target.');
+        setError('无法重置目标。');
         return;
       }
       setOpen(false);
       router.refresh();
     } catch {
-      setError('Could not reset the target.');
+      setError('无法重置目标。');
     } finally {
       setBusy(false);
     }
@@ -131,20 +131,19 @@ export function VolumeTargetEditor({
     >
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
-          Edit
+          编辑
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{label} volume target</DialogTitle>
+          <DialogTitle>{label} 容量目标</DialogTitle>
           <DialogDescription>
-            Your personal weekly set band (MEV-MRV) for {label.toLowerCase()}.
-            Leave it to use the {defaultMev}-{defaultMrv} default.
+            {label}的个人每周组数区间（MEV-MRV）。留空则使用 {defaultMev}-{defaultMrv} 默认值。
           </DialogDescription>
         </DialogHeader>
         <div className="flex gap-4">
           <div className="flex-1">
-            <Label htmlFor={`mev-${muscleGroup}`}>MEV (sets/week)</Label>
+            <Label htmlFor={`mev-${muscleGroup}`}>MEV（组/周）</Label>
             <Input
               id={`mev-${muscleGroup}`}
               type="number"
@@ -155,7 +154,7 @@ export function VolumeTargetEditor({
             />
           </div>
           <div className="flex-1">
-            <Label htmlFor={`mrv-${muscleGroup}`}>MRV (sets/week)</Label>
+            <Label htmlFor={`mrv-${muscleGroup}`}>MRV（组/周）</Label>
             <Input
               id={`mrv-${muscleGroup}`}
               type="number"
@@ -175,11 +174,11 @@ export function VolumeTargetEditor({
               disabled={busy}
               className="mr-auto"
             >
-              Reset to default
+              重置为默认
             </Button>
           )}
           <Button onClick={save} disabled={busy}>
-            Save
+            保存
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -54,10 +54,10 @@ export function ProgramEditDialog({ open, onOpenChange, program }: Props) {
     });
     if (!res.ok) {
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? 'Error');
+      toast.error(data?.error ?? '出错了');
       return;
     }
-    toast.success('Program updated.');
+    toast.success('方案已更新。');
     onOpenChange(false);
     router.refresh();
   }
@@ -66,33 +66,33 @@ export function ProgramEditDialog({ open, onOpenChange, program }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit program</DialogTitle>
+          <DialogTitle>编辑方案</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">名称</Label>
             <Input id="name" {...form.register('name')} />
             {form.formState.errors.name && (
               <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phase">Phase</Label>
+            <Label htmlFor="phase">阶段</Label>
             <Input id="phase" {...form.register('phase')} />
             {form.formState.errors.phase && (
               <p className="text-sm text-destructive">{form.formState.errors.phase.message}</p>
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">描述</Label>
             <Textarea id="description" rows={3} {...form.register('description')} />
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
+              取消
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Saving...' : 'Save'}
+              {form.formState.isSubmitting ? '正在保存...' : '保存'}
             </Button>
           </DialogFooter>
         </form>

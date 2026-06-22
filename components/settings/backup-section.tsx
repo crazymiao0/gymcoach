@@ -26,9 +26,9 @@ export function BackupSection() {
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-      toast.success('Export downloaded.');
+      toast.success('导出已完成。');
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Export failed.');
+      toast.error(e instanceof Error ? e.message : '导出失败。');
     } finally {
       setExporting(false);
     }
@@ -53,7 +53,7 @@ export function BackupSection() {
       try {
         payload = JSON.parse(text);
       } catch {
-        throw new Error('Invalid JSON file.');
+        throw new Error('无效的JSON文件。');
       }
       const res = await fetch('/api/backup', {
         method: 'POST',
@@ -64,12 +64,12 @@ export function BackupSection() {
         const j = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(j.error ?? `Error ${res.status}`);
       }
-      toast.success('Import complete. Existing data has been replaced.');
+      toast.success('导入完成。现有数据已被替换。');
       setConfirmingFile(null);
       // Refresh the page to start from a clean state.
       setTimeout(() => window.location.reload(), 800);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Import failed.');
+      toast.error(e instanceof Error ? e.message : '导入失败。');
     } finally {
       setImporting(false);
     }
@@ -78,9 +78,9 @@ export function BackupSection() {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <h2 className="text-base font-semibold">Data</h2>
+        <h2 className="text-base font-semibold">数据</h2>
         <p className="text-xs text-muted-foreground">
-          Local backup or restore from a JSON file.
+          从JSON文件本地备份或恢复。
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
@@ -95,7 +95,7 @@ export function BackupSection() {
           ) : (
             <Download className="size-4" />
           )}
-          <span className="ml-2">Export all my data (JSON)</span>
+          <span className="ml-2">导出所有数据（JSON）</span>
         </Button>
 
         <Button
@@ -105,7 +105,7 @@ export function BackupSection() {
           className="min-h-tap"
         >
           <Upload className="size-4" />
-          <span className="ml-2">Import a backup</span>
+          <span className="ml-2">导入备份</span>
         </Button>
         <input
           ref={fileRef}
@@ -120,12 +120,10 @@ export function BackupSection() {
             <div className="flex items-start gap-2">
               <AlertTriangle className="size-5 shrink-0 text-amber-600" />
               <div className="flex-1">
-                <p className="font-medium">Confirm the import</p>
+                <p className="font-medium">确认导入</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  The file <code>{confirmingFile.name}</code> will replace{' '}
-                  <strong>all</strong> your current data (programs,
-                  sessions, sets, goals, bodyweight history, check-ins,
-                  coach conversations). This action cannot be undone.
+                  文件 <code>{confirmingFile.name}</code> 将替换
+                  <strong>所有</strong>当前数据（方案、训练记录、组记录、目标、体重历史、打卡记录、教练对话）。此操作无法撤销。
                 </p>
                 <div className="mt-3 flex gap-2">
                   <Button
@@ -138,7 +136,7 @@ export function BackupSection() {
                       <Loader2 className="size-4 animate-spin" />
                     ) : null}
                     <span className={importing ? 'ml-2' : ''}>
-                      Yes, replace
+                      确认替换
                     </span>
                   </Button>
                   <Button
@@ -147,7 +145,7 @@ export function BackupSection() {
                     onClick={() => setConfirmingFile(null)}
                     disabled={importing}
                   >
-                    Cancel
+                    取消
                   </Button>
                 </div>
               </div>

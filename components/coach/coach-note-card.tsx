@@ -35,12 +35,12 @@ export function CoachNoteCard({ initialNote }: Props) {
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not save your note.');
+        toast.error(data?.error ?? '无法保存备注。');
         return false;
       }
       return true;
     } catch {
-      toast.error('Could not save your note.');
+      toast.error('无法保存备注。');
       return false;
     } finally {
       setBusy(false);
@@ -54,7 +54,7 @@ export function CoachNoteCard({ initialNote }: Props) {
     if (await persist(value)) {
       setNote(value ?? '');
       setSaved(value ?? '');
-      toast.success(value ? 'Note saved.' : 'Note cleared.');
+      toast.success(value ? '备注已保存。' : '备注已清除。');
     }
   }
 
@@ -62,7 +62,7 @@ export function CoachNoteCard({ initialNote }: Props) {
     if (await persist(null)) {
       setNote('');
       setSaved('');
-      toast.success('Note cleared.');
+      toast.success('备注已清除。');
     }
   }
 
@@ -71,18 +71,16 @@ export function CoachNoteCard({ initialNote }: Props) {
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <MessageSquarePlus className="size-4 text-primary" />
-          <h2 className="text-base font-semibold">Note to your coach</h2>
+          <h2 className="text-base font-semibold">给AI教练的备注</h2>
         </div>
         <p className="text-xs text-muted-foreground">
-          Your own current context for the coach to weigh - an injury, an
-          illness, travel, anything the data does not show. The coach reads this
-          alongside your training history.
+          你目前的个人状况，让教练考虑到——受伤、生病、旅行等数据无法体现的事情。教练会结合你的训练历史阅读此备注。
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <Textarea
-          aria-label="Note to your coach"
-          placeholder="e.g. Shoulder is bothering me, go easy on pressing this week."
+          aria-label="给AI教练的备注"
+          placeholder="例如：肩膀不太舒服，这周少做推举类动作。"
           value={note}
           onChange={(e) => setNote(e.target.value)}
           rows={3}
@@ -103,14 +101,14 @@ export function CoachNoteCard({ initialNote }: Props) {
               onClick={handleClear}
               disabled={busy || (saved.trim().length === 0 && trimmed.length === 0)}
             >
-              Clear
+              清除
             </Button>
             <Button
               type="button"
               onClick={handleSave}
               disabled={busy || overLimit || !dirty}
             >
-              Save
+              保存
             </Button>
           </div>
         </div>

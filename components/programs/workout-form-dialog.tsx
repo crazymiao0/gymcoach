@@ -75,10 +75,10 @@ export function WorkoutFormDialog(props: Props) {
     });
     if (!res.ok) {
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? 'Error');
+      toast.error(data?.error ?? '出错了');
       return;
     }
-    toast.success(props.mode === 'edit' ? 'Session updated.' : 'Session created.');
+    toast.success(props.mode === 'edit' ? '训练课已更新。' : '训练课已创建。');
     props.onOpenChange(false);
     router.refresh();
   }
@@ -88,20 +88,20 @@ export function WorkoutFormDialog(props: Props) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {props.mode === 'edit' ? 'Edit session' : 'New session'}
+            {props.mode === 'edit' ? '编辑训练课' : '新建训练课'}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="e.g. Upper - Upper body" {...form.register('name')} />
+            <Label htmlFor="name">名称</Label>
+            <Input id="name" placeholder="例如：上肢训练" {...form.register('name')} />
             {form.formState.errors.name && (
               <p className="text-sm text-destructive">{form.formState.errors.name.message}</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dayOfWeek">Day (optional)</Label>
+            <Label htmlFor="dayOfWeek">星期（可选）</Label>
             <Select
               value={form.watch('dayOfWeek') == null ? NO_DAY : String(form.watch('dayOfWeek'))}
               onValueChange={(v) =>
@@ -109,10 +109,10 @@ export function WorkoutFormDialog(props: Props) {
               }
             >
               <SelectTrigger id="dayOfWeek">
-                <SelectValue placeholder="Flexible" />
+                <SelectValue placeholder="灵活安排" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={NO_DAY}>Flexible</SelectItem>
+                <SelectItem value={NO_DAY}>灵活安排</SelectItem>
                 {DAY_LABELS.map((label, i) => (
                   <SelectItem key={i} value={String(i + 1)}>
                     {label}
@@ -129,14 +129,14 @@ export function WorkoutFormDialog(props: Props) {
               onClick={() => props.onOpenChange(false)}
               disabled={form.formState.isSubmitting}
             >
-              Cancel
+              取消
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting
-                ? 'Saving...'
+                ? '正在保存...'
                 : props.mode === 'edit'
-                  ? 'Save'
-                  : 'Create'}
+                  ? '保存'
+                  : '创建'}
             </Button>
           </DialogFooter>
         </form>

@@ -26,11 +26,11 @@ export function ProgramCreateForm() {
     });
     if (!res.ok) {
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? 'Error');
+      toast.error(data?.error ?? '出错了');
       return;
     }
     const created = (await res.json()) as { id: string };
-    toast.success('Program created.');
+    toast.success('方案已创建。');
     router.push(`/programs/${created.id}`);
     router.refresh();
   }
@@ -40,10 +40,10 @@ export function ProgramCreateForm() {
       <CardContent className="pt-6">
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="name">Program name</Label>
+            <Label htmlFor="name">方案名称</Label>
             <Input
               id="name"
-              placeholder="e.g. Hypertrophy 2026 - Phase 1"
+              placeholder="例如：增肌2026 - 第一阶段"
               {...form.register('name')}
             />
             {form.formState.errors.name && (
@@ -52,10 +52,10 @@ export function ProgramCreateForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phase">Phase</Label>
+            <Label htmlFor="phase">阶段</Label>
             <Input
               id="phase"
-              placeholder="e.g. Hypertrophy, Strength, Metabolic stress"
+              placeholder="例如：增肌、力量、代谢压力"
               {...form.register('phase')}
             />
             {form.formState.errors.phase && (
@@ -64,13 +64,13 @@ export function ProgramCreateForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description (optional)</Label>
+            <Label htmlFor="description">描述（可选）</Label>
             <Textarea id="description" rows={3} {...form.register('description')} />
           </div>
 
           <div className="flex justify-end">
             <Button type="submit" className="min-h-tap" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Creating...' : 'Create program'}
+              {form.formState.isSubmitting ? '正在创建...' : '创建方案'}
             </Button>
           </div>
         </form>

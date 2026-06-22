@@ -41,16 +41,16 @@ export function WorkoutCard({ workout, catalog }: Props) {
   const [deleting, setDeleting] = useState(false);
 
   async function handleDelete() {
-    if (!confirm(`Delete the session "${workout.name}" and all its exercises?`)) return;
+    if (!confirm(`删除训练课"${workout.name}"及其所有动作？`)) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/workouts/${workout.id}`, { method: 'DELETE' });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not delete.');
+        toast.error(data?.error ?? '无法删除。');
         return;
       }
-      toast.success('Session deleted.');
+      toast.success('训练课已删除。');
       router.refresh();
     } finally {
       setDeleting(false);
@@ -85,7 +85,7 @@ export function WorkoutCard({ workout, catalog }: Props) {
     });
     if (!res.ok) {
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? 'Could not update the superset.');
+      toast.error(data?.error ?? '无法更新超级组。');
       return false;
     }
     return true;
@@ -102,19 +102,19 @@ export function WorkoutCard({ workout, catalog }: Props) {
     if (group == null) {
       group = smallestFreeGroup(workout.exercises);
       if (group == null) {
-        toast.error('Superset limit reached for this session.');
+        toast.error('此训练课超级组数量已达上限。');
         return;
       }
       if (!(await updateSupersetGroup(previous, group))) return;
     }
     if (!(await updateSupersetGroup(pe, group))) return;
-    toast.success('Exercises paired as a superset.');
+    toast.success('动作已配对为超级组。');
     router.refresh();
   }
 
   async function handleUnpair(pe: ProgramExerciseWithExercise) {
     if (!(await updateSupersetGroup(pe, null))) return;
-    toast.success('Superset removed.');
+    toast.success('超级组已移除。');
     router.refresh();
   }
 
@@ -127,7 +127,7 @@ export function WorkoutCard({ workout, catalog }: Props) {
             <div className="mt-1 flex flex-wrap gap-1.5 text-xs text-muted-foreground">
               {dayLabel && <Badge variant="secondary">{dayLabel}</Badge>}
               <span>
-                {workout.exercises.length} exercise{workout.exercises.length > 1 ? 's' : ''}
+                {workout.exercises.length} 个动作
               </span>
             </div>
           </div>
@@ -137,7 +137,7 @@ export function WorkoutCard({ workout, catalog }: Props) {
                 variant="ghost"
                 size="icon"
                 className="min-h-tap min-w-tap"
-                aria-label="Session actions"
+                aria-label="训练课操作"
               >
                 <MoreHorizontal className="size-4" />
               </Button>
@@ -145,7 +145,7 @@ export function WorkoutCard({ workout, catalog }: Props) {
             <DropdownMenuContent align="end">
               <DropdownMenuItem onSelect={() => setEditOpen(true)}>
                 <Pencil className="mr-2 size-4" />
-                Edit
+                编辑
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -154,7 +154,7 @@ export function WorkoutCard({ workout, catalog }: Props) {
                 className="text-destructive focus:text-destructive"
               >
                 <Trash2 className="mr-2 size-4" />
-                Delete
+                删除
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -164,7 +164,7 @@ export function WorkoutCard({ workout, catalog }: Props) {
       <CardContent className="flex flex-col gap-2 pt-0">
         {workout.exercises.length === 0 ? (
           <p className="text-xs text-muted-foreground">
-            No programmed exercises. Use the button below to add some.
+            暂无计划动作。使用下方按钮添加。
           </p>
         ) : (
           <ul className="flex flex-col gap-2">
@@ -201,11 +201,11 @@ export function WorkoutCard({ workout, catalog }: Props) {
           disabled={catalog.length === 0}
         >
           <Plus className="size-4" />
-          <span className="ml-2">Add an exercise</span>
+          <span className="ml-2">添加动作</span>
         </Button>
         {catalog.length === 0 && (
           <p className="text-xs text-muted-foreground">
-            The catalog is empty. Add an exercise in Catalog first.
+            动作库为空。请先在动作库中添加动作。
           </p>
         )}
       </CardContent>

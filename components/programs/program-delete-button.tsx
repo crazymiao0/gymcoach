@@ -33,10 +33,10 @@ export function ProgramDeleteButton({
       const res = await fetch(`/api/programs/${programId}`, { method: 'DELETE' });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not delete.');
+        toast.error(data?.error ?? '无法删除。');
         return;
       }
-      toast.success('Program deleted.');
+      toast.success('方案已删除。');
       setOpen(false);
       router.push('/programs');
       router.refresh();
@@ -52,20 +52,18 @@ export function ProgramDeleteButton({
           className="min-h-tap text-destructive hover:bg-destructive/10 hover:text-destructive"
         >
           <Trash2 className="size-4" />
-          <span className="ml-2">Delete</span>
+          <span className="ml-2">删除</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete this program?</AlertDialogTitle>
+          <AlertDialogTitle>删除此方案？</AlertDialogTitle>
           <AlertDialogDescription>
-            <span className="font-medium text-foreground">{programName}</span> will be deleted along with
-            all its sessions and programmed exercises. Past sessions will be
-            detached (kept without an associated program).
+            <span className="font-medium text-foreground">{programName}</span> 及其所有训练课和计划动作都将被删除。过去的训练记录将被解除关联（保留但不再关联此方案）。
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>取消</AlertDialogCancel>
           <AlertDialogAction
             onClick={(e) => {
               e.preventDefault();
@@ -74,7 +72,7 @@ export function ProgramDeleteButton({
             disabled={isPending}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
-            {isPending ? 'Deleting...' : 'Delete'}
+            {isPending ? '正在删除...' : '删除'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

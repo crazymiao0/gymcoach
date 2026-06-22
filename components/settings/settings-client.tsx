@@ -38,7 +38,7 @@ export function SettingsClient() {
     <>
       <Card>
         <CardHeader className="pb-3">
-          <h2 className="text-base font-semibold">Appearance</h2>
+          <h2 className="text-base font-semibold">外观</h2>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -46,21 +46,21 @@ export function SettingsClient() {
               current={theme}
               value="dark"
               icon={<Moon className="size-4" />}
-              label="Dark"
+              label="深色"
               onClick={() => setTheme('dark')}
             />
             <ThemeChoice
               current={theme}
               value="light"
               icon={<Sun className="size-4" />}
-              label="Light"
+              label="浅色"
               onClick={() => setTheme('light')}
             />
             <ThemeChoice
               current={theme}
               value="system"
               icon={<Monitor className="size-4" />}
-              label="System"
+              label="跟随系统"
               onClick={() => setTheme('system')}
             />
           </div>
@@ -69,32 +69,32 @@ export function SettingsClient() {
 
       <Card>
         <CardHeader className="pb-3">
-          <h2 className="text-base font-semibold">Session</h2>
+          <h2 className="text-base font-semibold">训练会话</h2>
           <p className="text-xs text-muted-foreground">
-            These preferences are saved on this device only.
+            这些偏好仅保存于此设备。
           </p>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <PrefRow
             icon={<Smartphone className="size-4" />}
-            label="Vibration"
-            description="Set logging and end of timer."
+            label="振动"
+            description="组记录和计时结束时振动。"
             checked={prefs.vibration}
             onChange={(v) => update('vibration', v)}
             disabled={!hydrated}
           />
           <PrefRow
             icon={<Volume2 className="size-4" />}
-            label="End of timer beep"
-            description="Plays a short 880 Hz beep at the end of the rest."
+            label="计时结束提示音"
+            description="休息结束时播放短暂的880 Hz提示音。"
             checked={prefs.restTimerSound}
             onChange={(v) => update('restTimerSound', v)}
             disabled={!hydrated}
           />
           <PrefRow
             icon={<Activity className="size-4" />}
-            label="Let readiness/soreness adjust my suggested weights"
-            description="When on, a recent readiness check-in can hold or lower the suggested load. When off, suggestions follow pure programmed progression."
+            label="允许准备度/酸痛调整建议重量"
+            description="开启时，最近的准备度打卡可以保持或降低建议负荷。关闭时，建议仅跟随计划进度。"
             checked={prefs.readinessAutoRegulation}
             onChange={(v) => update('readinessAutoRegulation', v)}
             disabled={!hydrated}
@@ -104,10 +104,9 @@ export function SettingsClient() {
 
       <Card>
         <CardHeader className="pb-3">
-          <h2 className="text-base font-semibold">Plate calculator</h2>
+          <h2 className="text-base font-semibold">杠铃片计算器</h2>
           <p className="text-xs text-muted-foreground">
-            Bar weight and available plates per side, used by the in-workout
-            plate calculator. Set the values for the unit you train in.
+            杠铃重量和每侧可用片重，用于训练中的杠铃片计算器。请根据你训练时使用的单位设置数值。
           </p>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
@@ -163,14 +162,14 @@ function BarPlatesRow({
 
   return (
     <div className="rounded-md border border-border/40 p-3">
-      <p className="mb-2 text-sm font-medium">Equipment ({unitLabel})</p>
+      <p className="mb-2 text-sm font-medium">器材（{unitLabel}）</p>
       <div className="flex flex-col gap-3">
         <div className="space-y-1">
           <Label
             htmlFor={`bar-${unitLabel}`}
             className="text-xs uppercase tracking-wide text-muted-foreground"
           >
-            Bar weight ({unitLabel})
+            杠铃重量（{unitLabel}）
           </Label>
           <Input
             id={`bar-${unitLabel}`}
@@ -187,7 +186,7 @@ function BarPlatesRow({
             htmlFor={`plates-${unitLabel}`}
             className="text-xs uppercase tracking-wide text-muted-foreground"
           >
-            Plates per side ({unitLabel})
+            单侧杠铃片（{unitLabel}）
           </Label>
           <Input
             id={`plates-${unitLabel}`}
@@ -196,7 +195,7 @@ function BarPlatesRow({
             defaultValue={plates.join(', ')}
             disabled={disabled}
             onBlur={(e) => commitPlates(e.target.value)}
-            placeholder="e.g. 25, 20, 15, 10, 5, 2.5, 1.25"
+            placeholder="例如：25, 20, 15, 10, 5, 2.5, 1.25"
           />
         </div>
       </div>

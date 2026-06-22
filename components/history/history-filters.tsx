@@ -19,18 +19,18 @@ interface Props {
 }
 
 const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  '一月',
+  '二月',
+  '三月',
+  '四月',
+  '五月',
+  '六月',
+  '七月',
+  '八月',
+  '九月',
+  '十月',
+  '十一月',
+  '十二月',
 ];
 
 // Generates the last 12 months (including the current month) in YYYY-MM format.
@@ -70,7 +70,7 @@ export function HistoryFilters({
     <div className="flex flex-wrap items-center gap-2">
       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <Filter className="size-4" />
-        <span>Filters:</span>
+        <span>筛选：</span>
       </div>
 
       <Select
@@ -78,10 +78,10 @@ export function HistoryFilters({
         onValueChange={(v) => update('programId', v === 'all' ? undefined : v)}
       >
         <SelectTrigger className="h-9 w-auto min-w-[10rem]">
-          <SelectValue placeholder="Program" />
+          <SelectValue placeholder="方案" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All programs</SelectItem>
+          <SelectItem value="all">所有方案</SelectItem>
           {programs.map((p) => (
             <SelectItem key={p.id} value={p.id}>
               {p.name}
@@ -95,10 +95,10 @@ export function HistoryFilters({
         onValueChange={(v) => update('month', v === 'all' ? undefined : v)}
       >
         <SelectTrigger className="h-9 w-auto min-w-[9rem]">
-          <SelectValue placeholder="Month" />
+          <SelectValue placeholder="月份" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All months</SelectItem>
+          <SelectItem value="all">所有月份</SelectItem>
           {months.map((m) => (
             <SelectItem key={m.value} value={m.value}>
               {m.label}
@@ -115,7 +115,7 @@ export function HistoryFilters({
           disabled={isPending}
         >
           <X className="size-4" />
-          <span className="ml-1">Clear</span>
+          <span className="ml-1">清除</span>
         </Button>
       )}
 
@@ -124,11 +124,11 @@ export function HistoryFilters({
         size="sm"
         asChild
         className="ml-auto"
-        title="Download the CSV of sets for the active filters"
+        title="下载当前筛选的训练组CSV"
       >
         <a href={buildCsvHref(selectedProgramId, selectedMonth)} download>
           <Download className="size-4" />
-          <span className="ml-1">CSV</span>
+          <span className="ml-1">CSV导出</span>
         </a>
       </Button>
     </div>

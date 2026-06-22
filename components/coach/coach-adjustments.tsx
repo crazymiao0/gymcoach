@@ -65,7 +65,7 @@ export function CoachAdjustments({
   async function applyAll() {
     const selected = rows.filter((r) => r.selected).map((r) => r.data);
     if (selected.length === 0) {
-      setError('Select at least one adjustment.');
+      setError('请至少选择一个调整项。');
       return;
     }
     setPending(true);
@@ -88,10 +88,10 @@ export function CoachAdjustments({
       };
       const skippedMsg =
         j.skipped.length > 0
-          ? ` (${j.skipped.length} skipped: ${j.skipped.map((s) => s.exerciseName).join(', ')})`
+          ? `（${j.skipped.length} 个跳过：${j.skipped.map((s) => s.exerciseName).join(', ')}）`
           : '';
       setFeedback(
-        `${j.applied.length} adjustment${j.applied.length > 1 ? 's' : ''} applied${skippedMsg}.`,
+        `${j.applied.length} 个调整已应用${skippedMsg}。`,
       );
       onApplied(j.appliedAt);
     } catch (e) {
@@ -109,15 +109,14 @@ export function CoachAdjustments({
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="size-5" />
-            <h2 className="text-base font-semibold">Suggested adjustments</h2>
+            <h2 className="text-base font-semibold">建议调整</h2>
           </div>
           {alreadyApplied && (
-            <Badge variant="secondary">Already applied</Badge>
+            <Badge variant="secondary">已应用</Badge>
           )}
         </div>
         <p className="text-xs text-muted-foreground">
-          Check what you want to apply to the active program. You can tweak the
-          values before confirming.
+          勾选想要应用到活跃方案的内容。确认前可调整数值。
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
@@ -149,31 +148,31 @@ export function CoachAdjustments({
 
               <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 <NumberField
-                  label="Reps min"
+                  label="最少次数"
                   value={row.data.suggestedRepsMin ?? null}
                   onChange={(v) => patchRow(i, { suggestedRepsMin: v })}
                   disabled={!row.selected || pending}
                 />
                 <NumberField
-                  label="Reps max"
+                  label="最多次数"
                   value={row.data.suggestedRepsMax ?? null}
                   onChange={(v) => patchRow(i, { suggestedRepsMax: v })}
                   disabled={!row.selected || pending}
                 />
                 <NumberField
-                  label="Sets"
+                  label="组数"
                   value={row.data.suggestedSets ?? null}
                   onChange={(v) => patchRow(i, { suggestedSets: v })}
                   disabled={!row.selected || pending}
                 />
                 <NumberField
-                  label="RIR"
+                  label="RIR（留次）"
                   value={row.data.suggestedRIR ?? null}
                   onChange={(v) => patchRow(i, { suggestedRIR: v })}
                   disabled={!row.selected || pending}
                 />
                 <NumberField
-                  label="Rest (s)"
+                  label="休息（秒）"
                   value={row.data.suggestedRestSec ?? null}
                   onChange={(v) => patchRow(i, { suggestedRestSec: v })}
                   disabled={!row.selected || pending}
@@ -181,12 +180,12 @@ export function CoachAdjustments({
                 {row.data.suggestedLoad != null && (
                   <div className="flex flex-col gap-1">
                     <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                      Target load
+                      目标负荷
                     </span>
                     <span className="text-sm font-medium">
-                      {row.data.suggestedLoad} kg
+                      {row.data.suggestedLoad} 公斤
                       {row.data.currentLoad != null &&
-                        ` (vs ${row.data.currentLoad})`}
+                        `（先前 ${row.data.currentLoad}）`}
                     </span>
                   </div>
                 )}
@@ -207,14 +206,13 @@ export function CoachAdjustments({
             {pending ? (
               <>
                 <Loader2 className="size-5 animate-spin" />
-                <span className="ml-2">Applying...</span>
+                <span className="ml-2">应用调整中...</span>
               </>
             ) : (
               <>
                 <Check className="size-5" />
                 <span className="ml-2">
-                  Apply {selectedCount} adjustment
-                  {selectedCount > 1 ? 's' : ''}
+                  应用 {selectedCount} 个调整
                 </span>
               </>
             )}

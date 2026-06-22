@@ -27,7 +27,7 @@ export function DeleteSessionButton({ sessionId, workoutName, startedAt }: Props
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
-  const formatted = new Intl.DateTimeFormat('en-US', {
+  const formatted = new Intl.DateTimeFormat('zh-CN', {
     day: '2-digit',
     month: 'long',
     year: 'numeric',
@@ -41,11 +41,11 @@ export function DeleteSessionButton({ sessionId, workoutName, startedAt }: Props
         const j = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(j.error ?? `Error ${res.status}`);
       }
-      toast.success('Session deleted.');
+      toast.success('训练记录已删除。');
       router.push('/history');
       router.refresh();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to delete.');
+      toast.error(e instanceof Error ? e.message : '删除失败。');
       setPending(false);
     }
   }
@@ -59,20 +59,18 @@ export function DeleteSessionButton({ sessionId, workoutName, startedAt }: Props
           className="text-rose-600 hover:bg-rose-500/10 hover:text-rose-600"
         >
           <Trash2 className="size-4" />
-          <span className="ml-1">Delete</span>
+          <span className="ml-1">删除</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete this session?</AlertDialogTitle>
+          <AlertDialogTitle>删除此训练记录？</AlertDialogTitle>
           <AlertDialogDescription>
-            The <strong>{workoutName ?? 'free'}</strong> session from {formatted} and
-            all its sets will be permanently deleted. This action cannot be
-            undone.
+            <strong>{workoutName ?? '自由训练'}</strong>（{formatted}）及其所有组记录将被永久删除。此操作无法撤销。
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={pending}>取消</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={pending}
@@ -81,10 +79,10 @@ export function DeleteSessionButton({ sessionId, workoutName, startedAt }: Props
             {pending ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
-                <span className="ml-2">Deleting...</span>
+                <span className="ml-2">正在删除...</span>
               </>
             ) : (
-              'Yes, delete'
+              '确认删除'
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -119,10 +119,10 @@ export function ProgramExerciseFormDialog(props: Props) {
     });
     if (!res.ok) {
       const data = (await res.json().catch(() => null)) as { error?: string } | null;
-      toast.error(data?.error ?? 'Error');
+      toast.error(data?.error ?? '出错了');
       return;
     }
-    toast.success(props.mode === 'edit' ? 'Exercise updated.' : 'Exercise added.');
+    toast.success(props.mode === 'edit' ? '动作已更新。' : '动作已添加。');
     props.onOpenChange(false);
     router.refresh();
   }
@@ -143,16 +143,16 @@ export function ProgramExerciseFormDialog(props: Props) {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {props.mode === 'edit' ? 'Edit programmed exercise' : 'Add an exercise'}
+            {props.mode === 'edit' ? '编辑计划动作' : '添加动作'}
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="exerciseId">Exercise</Label>
+            <Label htmlFor="exerciseId">动作</Label>
             <Select value={form.watch('exerciseId')} onValueChange={handleExerciseChange}>
               <SelectTrigger id="exerciseId">
-                <SelectValue placeholder="Choose from the catalog" />
+                <SelectValue placeholder="从动作库中选择" />
               </SelectTrigger>
               <SelectContent>
                 {grouped.map(([group, list]) => (
@@ -178,7 +178,7 @@ export function ProgramExerciseFormDialog(props: Props) {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="targetSets">Sets</Label>
+              <Label htmlFor="targetSets">组数</Label>
               <Input
                 id="targetSets"
                 type="number"
@@ -203,7 +203,7 @@ export function ProgramExerciseFormDialog(props: Props) {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="targetRepsMin">Reps min</Label>
+              <Label htmlFor="targetRepsMin">最少次数</Label>
               <Input
                 id="targetRepsMin"
                 type="number"
@@ -214,7 +214,7 @@ export function ProgramExerciseFormDialog(props: Props) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="targetRepsMax">Reps max</Label>
+              <Label htmlFor="targetRepsMax">最多次数</Label>
               <Input
                 id="targetRepsMax"
                 type="number"
@@ -233,7 +233,7 @@ export function ProgramExerciseFormDialog(props: Props) {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="restSec">Rest (s)</Label>
+              <Label htmlFor="restSec">休息（秒）</Label>
               <Input
                 id="restSec"
                 type="number"
@@ -244,13 +244,13 @@ export function ProgramExerciseFormDialog(props: Props) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="tempo">Tempo (optional)</Label>
+              <Label htmlFor="tempo">节奏（可选）</Label>
               <Input id="tempo" placeholder="3-1-1-0" {...form.register('tempo')} />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes (optional)</Label>
+            <Label htmlFor="notes">备注（可选）</Label>
             <Textarea id="notes" rows={2} {...form.register('notes')} />
           </div>
 
@@ -261,14 +261,14 @@ export function ProgramExerciseFormDialog(props: Props) {
               onClick={() => props.onOpenChange(false)}
               disabled={form.formState.isSubmitting}
             >
-              Cancel
+              取消
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting
-                ? 'Saving...'
+                ? '正在保存...'
                 : props.mode === 'edit'
-                  ? 'Save'
-                  : 'Add'}
+                  ? '保存'
+                  : '添加'}
             </Button>
           </DialogFooter>
         </form>

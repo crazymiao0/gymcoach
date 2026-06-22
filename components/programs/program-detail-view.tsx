@@ -45,10 +45,10 @@ export function ProgramDetailView({ program, catalog }: Props) {
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Error');
+        toast.error(data?.error ?? '出错了');
         return;
       }
-      toast.success(program.isActive ? 'Program deactivated.' : 'Program activated.');
+      toast.success(program.isActive ? '方案已停用。' : '方案已激活。');
       router.refresh();
     } finally {
       setActivating(false);
@@ -60,7 +60,7 @@ export function ProgramDetailView({ program, catalog }: Props) {
       <Button asChild variant="ghost" size="sm" className="self-start">
         <Link href="/programs">
           <ChevronLeft className="size-4" />
-          <span className="ml-1">Back</span>
+          <span className="ml-1">返回</span>
         </Link>
       </Button>
 
@@ -71,7 +71,7 @@ export function ProgramDetailView({ program, catalog }: Props) {
               <CardTitle className="text-xl">{program.name}</CardTitle>
               <CardDescription>{program.phase}</CardDescription>
             </div>
-            {program.isActive && <Badge>Active</Badge>}
+            {program.isActive && <Badge>活跃中</Badge>}
           </div>
         </CardHeader>
         {program.description && (
@@ -85,7 +85,7 @@ export function ProgramDetailView({ program, catalog }: Props) {
             disabled={activating}
             className="min-h-tap"
           >
-            {program.isActive ? 'Deactivate' : 'Activate'}
+            {program.isActive ? '停用' : '激活'}
           </Button>
           <Button
             variant="outline"
@@ -93,14 +93,14 @@ export function ProgramDetailView({ program, catalog }: Props) {
             onClick={() => setEditOpen(true)}
             className="min-h-tap"
           >
-            Edit
+            编辑
           </Button>
           <ProgramDeleteButton programId={program.id} programName={program.name} />
         </CardContent>
       </Card>
 
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold">Sessions</h2>
+        <h2 className="text-lg font-semibold">训练课</h2>
         <Button
           size="sm"
           variant="outline"
@@ -108,16 +108,16 @@ export function ProgramDetailView({ program, catalog }: Props) {
           className="min-h-tap"
         >
           <Plus className="size-4" />
-          <span className="ml-2">Add a session</span>
+          <span className="ml-2">添加训练课</span>
         </Button>
       </div>
 
       {program.workouts.length === 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle>No sessions</CardTitle>
+            <CardTitle>暂无训练课</CardTitle>
             <CardDescription>
-              Add a first session to structure this program (e.g. Upper, Lower).
+              添加第一个训练课来构建此方案的结构（例如：上肢、下肢）。
             </CardDescription>
           </CardHeader>
         </Card>

@@ -41,14 +41,14 @@ export function ExercisesView({ exercises }: ExercisesViewProps) {
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Exercise catalog</h1>
+          <h1 className="text-2xl font-bold tracking-tight">动作库</h1>
           <p className="text-sm text-muted-foreground">
-            {exercises.length} exercise{exercises.length > 1 ? 's' : ''} saved.
+            已保存 {exercises.length} 个动作。
           </p>
         </div>
         <Button onClick={() => setCreateOpen(true)} className="min-h-tap">
           <Plus className="size-4" />
-          <span className="ml-2">Add</span>
+          <span className="ml-2">添加</span>
         </Button>
       </div>
 
@@ -59,8 +59,8 @@ export function ExercisesView({ exercises }: ExercisesViewProps) {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search exercises by name"
-            aria-label="Search exercises by name"
+            placeholder="按名称搜索动作"
+            aria-label="按名称搜索动作"
             className="pl-9"
           />
         </div>
@@ -69,20 +69,18 @@ export function ExercisesView({ exercises }: ExercisesViewProps) {
       {exercises.length === 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle>No exercises</CardTitle>
+            <CardTitle>暂无动作</CardTitle>
             <CardDescription>
-              The catalog is empty. Add your first exercise so you can use it in
-              a program.
+              动作库为空。添加你的第一个动作，以便在方案中使用。
             </CardDescription>
           </CardHeader>
         </Card>
       ) : filtered.length === 0 ? (
         <Card>
           <CardHeader>
-            <CardTitle>No exercises match</CardTitle>
+            <CardTitle>无匹配动作</CardTitle>
             <CardDescription>
-              No exercise name matches &ldquo;{query.trim()}&rdquo;. Try a different
-              search.
+              没有动作名称匹配 &ldquo;{query.trim()}&rdquo;。请尝试其他搜索词。
             </CardDescription>
           </CardHeader>
         </Card>
@@ -124,7 +122,7 @@ function ExerciseRow({ exercise, onEdit }: { exercise: Exercise; onEdit: () => v
           <p className="truncate text-sm font-medium">{exercise.name}</p>
           <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
             <Badge variant="secondary">{CATEGORY_LABELS[exercise.category]}</Badge>
-            <span>rest {exercise.defaultRestSec}s</span>
+            <span>休息 {exercise.defaultRestSec}秒</span>
           </div>
           {exercise.notes && (
             <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">{exercise.notes}</p>
@@ -135,7 +133,7 @@ function ExerciseRow({ exercise, onEdit }: { exercise: Exercise; onEdit: () => v
             variant="ghost"
             size="icon"
             onClick={onEdit}
-            aria-label="Edit"
+            aria-label="编辑"
             className="min-h-tap min-w-tap"
           >
             <Pencil className="size-4" />

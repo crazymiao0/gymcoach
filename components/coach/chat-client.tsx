@@ -155,10 +155,10 @@ export function ChatClient({
       {!hasApiKey && (
         <div className="rounded-md border border-amber-500/40 bg-amber-500/5 p-3 text-sm">
           <p className="font-medium text-amber-900 dark:text-amber-100">
-            {providerLabel} key missing
+            {providerLabel} API密钥缺失
           </p>
           <p className="text-xs text-muted-foreground">
-            Set <code>{apiKeyEnvVar}</code> in <code>.env</code> to enable the chat.
+            在 <code>.env</code> 中设置 <code>{apiKeyEnvVar}</code> 以启用聊天功能。
           </p>
         </div>
       )}
@@ -167,9 +167,8 @@ export function ChatClient({
         <div className="flex items-center gap-2 rounded-md border border-primary/30 bg-primary/5 p-3 text-sm">
           <Dumbbell className="size-4 shrink-0 text-primary" />
           <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-foreground">Live session attached.</span>{' '}
-            The coach sees the sets you have logged so far and your program
-            targets for this workout.
+            <span className="font-medium text-foreground">训练会话已关联。</span>{' '}
+            教练可以看到你目前已记录的组数及本次训练的目标。
           </p>
         </div>
       )}
@@ -183,7 +182,7 @@ export function ChatClient({
           className="shrink-0"
         >
           <MessageSquarePlus className="size-4" />
-          <span className="ml-1.5">New</span>
+          <span className="ml-1.5">新对话</span>
         </Button>
         {conversations.map((c) => (
           <button
@@ -209,8 +208,8 @@ export function ChatClient({
         {messages.length === 0 ? (
           <p className="m-auto max-w-sm text-center text-sm text-muted-foreground">
             {sessionId
-              ? 'Mid-workout question? Ask about your next set, a load that feels off, or whether to swap an exercise.'
-              : 'Ask your coach anything: how to break a plateau, whether your volume is on track, how to adjust around an injury...'}
+              ? '训练中的疑问？问问关于下一组、感觉不对的负荷、或者是否要换个动作。'
+              : '向教练提问：如何突破平台期、训练量是否合理、如何应对伤病调整……'}
           </p>
         ) : (
           messages.map((m, i) => (
@@ -245,7 +244,7 @@ export function ChatClient({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
           rows={2}
-          placeholder="Message your coach..."
+          placeholder="向教练发消息..."
           disabled={!hasApiKey || streaming}
           className="resize-none"
         />

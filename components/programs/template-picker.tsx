@@ -33,11 +33,11 @@ export function TemplatePicker({ templates }: Props) {
         throw new Error(j.error ?? `Error ${res.status}`);
       }
       const j = (await res.json()) as { id: string };
-      toast.success('Program created from template.');
+      toast.success('已从模板创建方案。');
       router.push(`/programs/${j.id}`);
       router.refresh();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not create the program.');
+      toast.error(e instanceof Error ? e.message : '无法创建方案。');
       setCreatingSlug(null);
     }
   }
@@ -55,7 +55,7 @@ export function TemplatePicker({ templates }: Props) {
                   <p className="mt-1 text-sm text-muted-foreground">{template.summary}</p>
                 </div>
                 <Badge variant="secondary" className="shrink-0">
-                  {dayCount} {dayCount === 1 ? 'day' : 'days'}
+                  {dayCount} 天
                 </Badge>
               </div>
             </CardHeader>
@@ -68,7 +68,7 @@ export function TemplatePicker({ templates }: Props) {
                   disabled={creatingSlug !== null}
                   onClick={() => instantiate(template)}
                 >
-                  {creatingSlug === template.slug ? 'Creating...' : 'Use this template'}
+                  {creatingSlug === template.slug ? '正在创建...' : '使用此模板'}
                 </Button>
               </div>
             </CardContent>

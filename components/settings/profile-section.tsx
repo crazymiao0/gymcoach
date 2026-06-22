@@ -31,22 +31,22 @@ interface Props {
 }
 
 const SEX_OPTIONS: { value: Sex; label: string }[] = [
-  { value: 'MALE', label: 'Male' },
-  { value: 'FEMALE', label: 'Female' },
-  { value: 'OTHER', label: 'Other' },
+  { value: 'MALE', label: '男' },
+  { value: 'FEMALE', label: '女' },
+  { value: 'OTHER', label: '其他' },
 ];
 
 const GOAL_OPTIONS: { value: TrainingGoal; label: string }[] = [
-  { value: 'HYPERTROPHY', label: 'Hypertrophy' },
-  { value: 'STRENGTH', label: 'Strength' },
-  { value: 'FAT_LOSS', label: 'Fat loss' },
-  { value: 'RECOMP', label: 'Recomposition' },
-  { value: 'GENERAL_FITNESS', label: 'General fitness' },
+  { value: 'HYPERTROPHY', label: '增肌' },
+  { value: 'STRENGTH', label: '力量' },
+  { value: 'FAT_LOSS', label: '减脂' },
+  { value: 'RECOMP', label: '重组' },
+  { value: 'GENERAL_FITNESS', label: '综合健身' },
 ];
 
 const UNIT_OPTIONS: { value: WeightUnit; label: string }[] = [
-  { value: 'KG', label: 'Kilograms (kg)' },
-  { value: 'LB', label: 'Pounds (lb)' },
+  { value: 'KG', label: '公斤 (kg)' },
+  { value: 'LB', label: '磅 (lb)' },
 ];
 
 function numOrEmpty(n: number | null): string {
@@ -80,7 +80,7 @@ export function ProfileSection({ initial }: Props) {
 
   async function save() {
     if (!isValid) {
-      toast.error('Please fix the highlighted fields.');
+      toast.error('请修正标红的字段。');
       return;
     }
     setPending(true);
@@ -104,9 +104,9 @@ export function ProfileSection({ initial }: Props) {
         const j = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(j.error ?? `Error ${res.status}`);
       }
-      toast.success('Profile updated.');
+      toast.success('个人资料已更新。');
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed.');
+      toast.error(e instanceof Error ? e.message : '操作失败。');
     } finally {
       setPending(false);
     }
@@ -117,24 +117,22 @@ export function ProfileSection({ initial }: Props) {
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <User className="size-5" />
-          <h2 className="text-base font-semibold">Profile</h2>
+          <h2 className="text-base font-semibold">个人资料</h2>
         </div>
         <p className="text-xs text-muted-foreground">
-          Your profile tailors the AI coach. Bodyweight is also used to compute
-          the effective tonnage on bodyweight exercises (pull-ups, dips...);
-          changing it recalculates past history accordingly.
+          个人资料用于个性化AI教练。体重也用于计算自重动作（引体向上、臂屈伸等）的有效训练量；更改体重将重新计算历史数据。
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="space-y-1.5">
           <Label htmlFor="displayName" className="text-sm">
-            Name
+            名称
           </Label>
           <Input
             id="displayName"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            placeholder="Your name"
+            placeholder="你的名称"
             maxLength={80}
             className="max-w-xs"
           />
@@ -143,7 +141,7 @@ export function ProfileSection({ initial }: Props) {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <Label htmlFor="bodyweight" className="text-sm">
-              Bodyweight (kg)
+              体重（公斤）
             </Label>
             <Input
               id="bodyweight"
@@ -152,16 +150,16 @@ export function ProfileSection({ initial }: Props) {
               step="0.1"
               value={bodyweight}
               onChange={(e) => setBodyweight(e.target.value)}
-              placeholder="e.g. 75"
+              placeholder="例如：75"
             />
             {!rangeOk(bodyweight, 20, 300) && (
-              <p className="text-xs text-rose-600">Between 20 and 300 kg.</p>
+              <p className="text-xs text-rose-600">请在 20 到 300 kg 之间。</p>
             )}
           </div>
 
           <div className="space-y-1.5">
             <Label htmlFor="heightCm" className="text-sm">
-              Height (cm)
+              身高（厘米）
             </Label>
             <Input
               id="heightCm"
@@ -170,20 +168,20 @@ export function ProfileSection({ initial }: Props) {
               step="1"
               value={heightCm}
               onChange={(e) => setHeightCm(e.target.value)}
-              placeholder="e.g. 178"
+              placeholder="例如：178"
             />
             {!rangeOk(heightCm, 100, 250) && (
-              <p className="text-xs text-rose-600">Between 100 and 250 cm.</p>
+              <p className="text-xs text-rose-600">请在 100 到 250 cm 之间。</p>
             )}
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <Label className="text-sm">Sex</Label>
+            <Label className="text-sm">性别</Label>
             <Select value={sex} onValueChange={(v) => setSex(v as Sex)}>
               <SelectTrigger>
-                <SelectValue placeholder="Not set" />
+                <SelectValue placeholder="未设置" />
               </SelectTrigger>
               <SelectContent>
                 {SEX_OPTIONS.map((o) => (
@@ -197,7 +195,7 @@ export function ProfileSection({ initial }: Props) {
 
           <div className="space-y-1.5">
             <Label htmlFor="weeklyFrequency" className="text-sm">
-              Sessions / week
+              每周训练次数
             </Label>
             <Input
               id="weeklyFrequency"
@@ -206,19 +204,19 @@ export function ProfileSection({ initial }: Props) {
               step="1"
               value={weeklyFrequency}
               onChange={(e) => setWeeklyFrequency(e.target.value)}
-              placeholder="e.g. 3"
+              placeholder="例如：3"
             />
             {!rangeOk(weeklyFrequency, 1, 14) && (
-              <p className="text-xs text-rose-600">Between 1 and 14.</p>
+              <p className="text-xs text-rose-600">请在 1 到 14 之间。</p>
             )}
           </div>
         </div>
 
         <div className="space-y-1.5">
-          <Label className="text-sm">Goal</Label>
+          <Label className="text-sm">目标</Label>
           <Select value={goal} onValueChange={(v) => setGoal(v as TrainingGoal)}>
             <SelectTrigger className="max-w-xs">
-              <SelectValue placeholder="Not set" />
+              <SelectValue placeholder="未设置" />
             </SelectTrigger>
             <SelectContent>
               {GOAL_OPTIONS.map((o) => (
@@ -231,7 +229,7 @@ export function ProfileSection({ initial }: Props) {
         </div>
 
         <div className="space-y-1.5">
-          <Label className="text-sm">Weight unit</Label>
+          <Label className="text-sm">重量单位</Label>
           <Select value={unit} onValueChange={(v) => setUnit(v as WeightUnit)}>
             <SelectTrigger className="max-w-xs">
               <SelectValue />
@@ -245,8 +243,7 @@ export function ProfileSection({ initial }: Props) {
             </SelectContent>
           </Select>
           <p className="text-xs text-muted-foreground">
-            Changes how weights are shown and entered. Your data is always stored
-            in kg, so switching never alters past sessions.
+            改变重量的显示和输入方式。你的数据始终以公斤存储，因此切换单位不会改变历史记录。
           </p>
         </div>
 
@@ -262,7 +259,7 @@ export function ProfileSection({ initial }: Props) {
             ) : (
               <Save className="size-4" />
             )}
-            <span className="ml-2">Save</span>
+            <span className="ml-2">保存</span>
           </Button>
         </div>
       </CardContent>

@@ -42,7 +42,7 @@ export function ProgramExerciseRow({
   const [deleting, setDeleting] = useState(false);
 
   async function handleDelete() {
-    if (!confirm(`Remove "${programExercise.exercise.name}" from this session?`)) return;
+    if (!confirm(`从此次训练课中移除"${programExercise.exercise.name}"？`)) return;
     setDeleting(true);
     try {
       const res = await fetch(`/api/program-exercises/${programExercise.id}`, {
@@ -50,10 +50,10 @@ export function ProgramExerciseRow({
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not delete.');
+        toast.error(data?.error ?? '无法删除。');
         return;
       }
-      toast.success('Exercise removed.');
+      toast.success('动作已移除。');
       router.refresh();
     } finally {
       setDeleting(false);
@@ -81,9 +81,9 @@ export function ProgramExerciseRow({
               </Badge>
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
-              {programExercise.targetSets} sets × {repsLabel} reps · RIR{' '}
-              {programExercise.targetRIR} · rest {programExercise.restSec}s
-              {programExercise.tempo && ` · tempo ${programExercise.tempo}`}
+              {programExercise.targetSets} 组 × {repsLabel} 次 · RIR{' '}
+              {programExercise.targetRIR} · 休息 {programExercise.restSec}秒
+              {programExercise.tempo && ` · 节奏 ${programExercise.tempo}`}
             </p>
             {programExercise.notes && (
               <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
@@ -97,7 +97,7 @@ export function ProgramExerciseRow({
                 variant="ghost"
                 size="icon"
                 className="min-h-tap min-w-tap"
-                aria-label="Exercise actions"
+                aria-label="动作操作"
               >
                 <MoreHorizontal className="size-4" />
               </Button>
@@ -105,18 +105,18 @@ export function ProgramExerciseRow({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onSelect={() => setEditOpen(true)}>
                 <Pencil className="mr-2 size-4" />
-                Edit
+                编辑
               </DropdownMenuItem>
               {onPairWithPrevious && (
                 <DropdownMenuItem onSelect={() => onPairWithPrevious()}>
                   <Link2 className="mr-2 size-4" />
-                  Pair with previous
+                  与上一动作配对
                 </DropdownMenuItem>
               )}
               {onUnpair && (
                 <DropdownMenuItem onSelect={() => onUnpair()}>
                   <Unlink className="mr-2 size-4" />
-                  Unpair superset
+                  取消超级组配对
                 </DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
@@ -126,7 +126,7 @@ export function ProgramExerciseRow({
                 className="text-destructive focus:text-destructive"
               >
                 <Trash2 className="mr-2 size-4" />
-                Remove
+                移除
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

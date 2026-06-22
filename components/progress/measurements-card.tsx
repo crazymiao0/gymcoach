@@ -44,7 +44,7 @@ interface Props {
 }
 
 function shortDate(iso: string) {
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('zh-CN', {
     day: '2-digit',
     month: '2-digit',
   }).format(new Date(iso));
@@ -94,7 +94,7 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
   async function addEntry() {
     const value = parseFloat(valueField);
     if (!Number.isFinite(value) || value <= 0) {
-      toast.error('Enter a positive measurement.');
+      toast.error('请输入正数测量值。');
       return;
     }
     setBusy(true);
@@ -106,10 +106,10 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not log the measurement.');
+        toast.error(data?.error ?? '无法记录测量。');
         return;
       }
-      toast.success('Measurement logged.');
+      toast.success('测量已记录。');
       setValueField('');
       router.refresh();
     } finally {
@@ -123,10 +123,10 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
       const res = await fetch(`/api/measurements/${id}`, { method: 'DELETE' });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not delete the measurement.');
+        toast.error(data?.error ?? '无法删除测量记录。');
         return;
       }
-      toast.success('Measurement deleted.');
+      toast.success('测量已删除。');
       router.refresh();
     } finally {
       setBusy(false);
@@ -139,7 +139,7 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="flex items-center gap-2 text-base font-semibold">
             <Ruler className="size-4" />
-            Measurements
+            身体测量
           </h2>
         </div>
       </CardHeader>
@@ -153,7 +153,7 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
           }}
         >
           <div className="flex-1 space-y-1">
-            <Label htmlFor="measurement-site">Site</Label>
+            <Label htmlFor="measurement-site">部位</Label>
             <select
               id="measurement-site"
               className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -168,7 +168,7 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
             </select>
           </div>
           <div className="flex-1 space-y-1">
-            <Label htmlFor="measurement-value">Value ({unitSuffix})</Label>
+            <Label htmlFor="measurement-value">数值 ({unitSuffix})</Label>
             <Input
               id="measurement-value"
               type="number"
@@ -180,7 +180,7 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
             />
           </div>
           <Button type="submit" disabled={busy}>
-            {busy ? 'Saving...' : 'Log'}
+            {busy ? '保存中...' : '记录'}
           </Button>
         </form>
 
@@ -202,8 +202,8 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
         {chartData.length < 2 ? (
           <p className="text-sm text-muted-foreground">
             {chartData.length === 0
-              ? `No ${measurementSiteLabel(site).toLowerCase()} measurement yet. Log one to start the trend.`
-              : `Log a second ${measurementSiteLabel(site).toLowerCase()} measurement to see the trend.`}
+              ? `尚无${measurementSiteLabel(site)}测量数据。记录第一次以开始追踪趋势。`
+              : `记录第二次${measurementSiteLabel(site)}测量以查看趋势。`}
           </p>
         ) : (
           <div className="h-48 w-full">
@@ -247,13 +247,13 @@ export function MeasurementsCard({ entries, unit, listLimit = 5 }: Props) {
               >
                 <span>
                   <span className="font-medium">{formatLength(e.valueCm, metric)}</span>{' '}
-                  <span className="text-muted-foreground">on {shortDate(e.measuredAt)}</span>
+                  <span className="text-muted-foreground">{shortDate(e.measuredAt)}</span>
                 </span>
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  aria-label={`Delete ${measurementSiteLabel(e.site)} measurement of ${shortDate(e.measuredAt)}`}
+                  aria-label={`删除${shortDate(e.measuredAt)}的${measurementSiteLabel(e.site)}测量`}
                   onClick={() => void deleteEntry(e.id)}
                   disabled={busy}
                 >

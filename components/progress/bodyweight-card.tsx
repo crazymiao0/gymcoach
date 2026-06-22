@@ -42,7 +42,7 @@ interface Props {
 }
 
 function shortDate(iso: string) {
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('zh-CN', {
     day: '2-digit',
     month: '2-digit',
   }).format(new Date(iso));
@@ -75,7 +75,7 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
   async function addEntry() {
     const weight = parseFloat(weightField);
     if (!Number.isFinite(weight) || weight <= 0) {
-      toast.error('Enter a positive bodyweight.');
+      toast.error('请输入正数体重值。');
       return;
     }
     setBusy(true);
@@ -87,10 +87,10 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not log the bodyweight.');
+        toast.error(data?.error ?? '无法记录体重。');
         return;
       }
-      toast.success('Bodyweight logged.');
+      toast.success('体重已记录。');
       setWeightField('');
       router.refresh();
     } finally {
@@ -104,10 +104,10 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
       const res = await fetch(`/api/bodyweight/${id}`, { method: 'DELETE' });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not delete the entry.');
+        toast.error(data?.error ?? '无法删除记录。');
         return;
       }
-      toast.success('Entry deleted.');
+      toast.success('记录已删除。');
       router.refresh();
     } finally {
       setBusy(false);
@@ -120,11 +120,11 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="flex items-center gap-2 text-base font-semibold">
             <Scale className="size-4" />
-            Bodyweight
+            体重
           </h2>
           {latest && (
             <span className="text-sm text-muted-foreground">
-              Current: {formatWeight(latest.weightKg, unit)}
+              当前：{formatWeight(latest.weightKg, unit)}
             </span>
           )}
         </div>
@@ -139,7 +139,7 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
           }}
         >
           <div className="flex-1 space-y-1">
-            <Label htmlFor="bodyweight-input">Bodyweight ({unitSuffix})</Label>
+            <Label htmlFor="bodyweight-input">体重 ({unitSuffix})</Label>
             <Input
               id="bodyweight-input"
               type="number"
@@ -156,7 +156,7 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
             />
           </div>
           <Button type="submit" disabled={busy}>
-            {busy ? 'Saving...' : 'Log'}
+            {busy ? '保存中...' : '记录'}
           </Button>
         </form>
 
@@ -164,8 +164,8 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
         {chartData.length < 2 ? (
           <p className="text-sm text-muted-foreground">
             {chartData.length === 0
-              ? 'No bodyweight logged yet. Log a first measurement to start the trend.'
-              : 'Log a second measurement to see the trend.'}
+              ? '尚未记录体重。记录第一次测量以开始追踪趋势。'
+              : '记录第二次测量以查看趋势。'}
           </p>
         ) : (
           <div className="h-48 w-full">
@@ -189,7 +189,7 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
                 <Line
                   type="monotone"
                   dataKey="weight"
-                  name={`Bodyweight (${unitSuffix})`}
+                  name={`体重 (${unitSuffix})`}
                   stroke="hsl(var(--primary))"
                   strokeWidth={2}
                   dot={{ r: 3 }}
@@ -209,13 +209,13 @@ export function BodyweightCard({ entries, unit, listLimit = 5 }: Props) {
               >
                 <span>
                   <span className="font-medium">{formatWeight(e.weightKg, unit)}</span>{' '}
-                  <span className="text-muted-foreground">on {shortDate(e.measuredAt)}</span>
+                  <span className="text-muted-foreground">{shortDate(e.measuredAt)}</span>
                 </span>
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  aria-label={`Delete entry of ${shortDate(e.measuredAt)}`}
+                  aria-label={`删除${shortDate(e.measuredAt)}的记录`}
                   onClick={() => void deleteEntry(e.id)}
                   disabled={busy}
                 >

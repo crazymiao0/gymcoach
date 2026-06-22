@@ -73,7 +73,7 @@ export function ExerciseGoalCard({
     const weight = parseFloat(weightField);
     const reps = parseInt(repsField, 10);
     if (!Number.isFinite(weight) || weight <= 0 || !Number.isInteger(reps) || reps < 1) {
-      toast.error('Enter a positive target weight and at least 1 rep.');
+      toast.error('请输入正数目标重量和至少1次。');
       return;
     }
     setBusy(true);
@@ -89,10 +89,10 @@ export function ExerciseGoalCard({
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not save the goal.');
+        toast.error(data?.error ?? '无法保存目标。');
         return;
       }
-      toast.success('Goal saved.');
+      toast.success('目标已保存。');
       setOpen(false);
       router.refresh();
     } finally {
@@ -107,10 +107,10 @@ export function ExerciseGoalCard({
       const res = await fetch(`/api/goals/${goal.id}`, { method: 'DELETE' });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not remove the goal.');
+        toast.error(data?.error ?? '无法删除目标。');
         return;
       }
-      toast.success('Goal removed.');
+      toast.success('目标已删除。');
       router.refresh();
     } finally {
       setBusy(false);
@@ -123,11 +123,11 @@ export function ExerciseGoalCard({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="flex items-center gap-2 text-base font-semibold">
             <Target className="size-4" />
-            Goal - {exerciseName}
+            目标 - {exerciseName}
           </h2>
           <div className="flex items-center gap-2">
             <Button type="button" variant="outline" size="sm" onClick={openDialog}>
-              {goal ? 'Edit goal' : 'Set a goal'}
+              {goal ? '编辑目标' : '设定目标'}
             </Button>
             {goal && (
               <Button
@@ -137,7 +137,7 @@ export function ExerciseGoalCard({
                 onClick={removeGoal}
                 disabled={busy}
               >
-                Remove
+                删除
               </Button>
             )}
           </div>
@@ -146,30 +146,29 @@ export function ExerciseGoalCard({
       <CardContent>
         {!goal || !target ? (
           <p className="text-sm text-muted-foreground">
-            No goal set for this exercise. Set a target load and reps to track
-            your progress toward it.
+            尚未为此动作设定目标。设定目标负荷和次数以追踪进度。
           </p>
         ) : (
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
               <span className="font-medium">
-                Target: {formatWeight(goal.targetWeight, unit)} x {goal.targetReps}{' '}
-                {goal.targetReps === 1 ? 'rep' : 'reps'}
+                目标：{formatWeight(goal.targetWeight, unit)} x {goal.targetReps}{' '}
+                次
               </span>
               {achieved && (
                 <Badge className="bg-emerald-600 text-white hover:bg-emerald-600">
-                  Achieved
+                  已达成
                 </Badge>
               )}
             </div>
             <Progress
               value={Math.round(progress * 100)}
-              aria-label="Progress toward goal"
+              aria-label="目标进度"
             />
             <p className="text-xs text-muted-foreground">
-              {Math.round(progress * 100)}% of the target on the estimated-1RM
-              scale ({formatWeight(bestE1RM, unit)} best vs{' '}
-              {formatWeight(goalTargetE1RM(target), unit)} target).
+              预估1RM已达目标的{Math.round(progress * 100)}%
+              （最佳{formatWeight(bestE1RM, unit)} vs{' '}
+              目标{formatWeight(goalTargetE1RM(target), unit)}）。
             </p>
           </div>
         )}
@@ -179,12 +178,12 @@ export function ExerciseGoalCard({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {goal ? 'Edit the goal' : 'Set a goal'} - {exerciseName}
+              {goal ? '编辑目标' : '设定目标'} - {exerciseName}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="goal-weight">Target load ({unitLabel(unit)})</Label>
+              <Label htmlFor="goal-weight">目标负荷 ({unitLabel(unit)})</Label>
               <Input
                 id="goal-weight"
                 type="number"
@@ -196,13 +195,12 @@ export function ExerciseGoalCard({
               />
               {usesBodyweight && (
                 <p className="text-xs text-muted-foreground">
-                  Bodyweight exercise: enter the total effective load
-                  (bodyweight + added load), like the progress charts.
+                  自重动作：输入总有效负荷（体重 + 附加负重），与进度图表一致。
                 </p>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="goal-reps">Target reps</Label>
+              <Label htmlFor="goal-reps">目标次数</Label>
               <Input
                 id="goal-reps"
                 type="number"
@@ -215,10 +213,10 @@ export function ExerciseGoalCard({
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancel
+              取消
             </Button>
             <Button type="button" onClick={saveGoal} disabled={busy}>
-              {busy ? 'Saving...' : 'Save goal'}
+              {busy ? '保存中...' : '保存目标'}
             </Button>
           </DialogFooter>
         </DialogContent>

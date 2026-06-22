@@ -22,7 +22,7 @@ interface Props {
 
 function formatDay(iso: string): string {
   // "2026-02-01" -> "Feb 1, 2026". Parsed as UTC so the day never shifts.
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('zh-CN', {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
@@ -41,11 +41,10 @@ export function RecordsCard({ records, unit }: Props) {
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <Trophy className="size-4 text-amber-500" />
-          <h2 className="text-base font-semibold">Records</h2>
+          <h2 className="text-base font-semibold">纪录</h2>
         </div>
         <p className="text-xs text-muted-foreground">
-          All-time bests per exercise: heaviest working set and best estimated
-          1RM (Epley).
+          各动作历史最佳：最重正式组和最佳预估1RM（Epley公式）。
         </p>
       </CardHeader>
       <CardContent>
@@ -58,7 +57,7 @@ export function RecordsCard({ records, unit }: Props) {
               <span className="text-sm font-semibold">{r.exerciseName}</span>
               <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
                 <span>
-                  Heaviest:{' '}
+                  最重重量：{' '}
                   <span className="font-medium text-foreground tabular-nums">
                     {formatWeight(r.maxWeight, unit)} x {r.maxWeightReps}
                   </span>{' '}
@@ -67,7 +66,7 @@ export function RecordsCard({ records, unit }: Props) {
                   </span>
                 </span>
                 <span>
-                  Best 1RM:{' '}
+                  最佳1RM：{' '}
                   <span className="font-medium text-foreground tabular-nums">
                     {formatWeight(r.bestE1RM, unit)}
                   </span>{' '}

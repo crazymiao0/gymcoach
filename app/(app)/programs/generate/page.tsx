@@ -10,7 +10,7 @@ export default async function GenerateProgramPage() {
       <div className="mx-auto flex max-w-3xl flex-col gap-6">
         <div className="flex items-center gap-3">
           <Wand2 className="size-6" />
-          <h1 className="text-2xl font-bold tracking-tight">AI program</h1>
+          <h1 className="text-2xl font-bold tracking-tight">AI生成方案</h1>
         </div>
         <ProgramGenerator />
       </div>

@@ -36,10 +36,10 @@ export function DeloadBanner({ reasons, deloadUntil }: Props) {
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not start the deload week.');
+        toast.error(data?.error ?? '无法开始减载周。');
         return;
       }
-      toast.success('Deload week started. Load suggestions step down for 7 days.');
+      toast.success('减载周已开始。负荷建议将在7天内逐步降低。');
       router.refresh();
     } finally {
       setBusy(false);
@@ -52,10 +52,10 @@ export function DeloadBanner({ reasons, deloadUntil }: Props) {
       const res = await fetch('/api/deload', { method: 'DELETE' });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not end the deload.');
+        toast.error(data?.error ?? '无法结束减载。');
         return;
       }
-      toast.success('Deload ended. Suggestions are back to normal progression.');
+      toast.success('减载已结束。建议已恢复为正常进度。');
       router.refresh();
     } finally {
       setBusy(false);
@@ -63,7 +63,7 @@ export function DeloadBanner({ reasons, deloadUntil }: Props) {
   }
 
   if (active) {
-    const endDate = new Intl.DateTimeFormat('en-US', {
+    const endDate = new Intl.DateTimeFormat('zh-CN', {
       day: '2-digit',
       month: 'short',
     }).format(new Date(deloadUntil!));
@@ -72,18 +72,16 @@ export function DeloadBanner({ reasons, deloadUntil }: Props) {
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
             <BatteryCharging className="size-4 text-emerald-600" />
-            <h2 className="text-base font-semibold">Deload week in progress</h2>
+            <h2 className="text-base font-semibold">减载周进行中</h2>
           </div>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 text-sm">
           <p className="text-muted-foreground">
-            Until {endDate}, your load suggestions step down by about 10% so you
-            keep moving while recovering. Normal progression resumes
-            automatically afterwards.
+            截至{endDate}，负荷建议将降低约10%，让你在恢复的同时保持运动。之后自动恢复为正常进度。
           </p>
           <div>
             <Button variant="outline" size="sm" onClick={endDeload} disabled={busy}>
-              End deload now
+              立即结束减载
             </Button>
           </div>
         </CardContent>
@@ -97,7 +95,7 @@ export function DeloadBanner({ reasons, deloadUntil }: Props) {
         <div className="flex items-center gap-2">
           <BatteryLow className="size-4 text-amber-600" />
           <h2 className="text-base font-semibold">
-            A deload week looks due
+            建议进行减载周
           </h2>
         </div>
       </CardHeader>
@@ -108,14 +106,11 @@ export function DeloadBanner({ reasons, deloadUntil }: Props) {
           ))}
         </ul>
         <p className="text-xs text-muted-foreground">
-          Accumulated fatigue can mask progress. Starting a deload week reduces
-          your suggested loads by about 10% for 7 days, then normal progression
-          resumes. You can end it early at any time; nothing else in your
-          program changes.
+          累积的疲劳可能掩盖进度。开始减载周后，负荷建议将在7天内降低约10%，之后恢复为正常进度。你可以随时提前结束减载；程序中的其他内容保持不变。
         </p>
         <div>
           <Button size="sm" onClick={startDeload} disabled={busy}>
-            Start a deload week
+            开始减载周
           </Button>
         </div>
       </CardContent>

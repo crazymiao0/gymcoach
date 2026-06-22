@@ -171,7 +171,7 @@ export function SessionSummary({
         <h1 className="text-2xl font-bold tracking-tight">训练总结</h1>
 
         <div className="grid grid-cols-3 gap-3">
-          <Stat label="时长" value={`${durationMin} min`} />
+          <Stat label="时长" value={`${durationMin} 分钟`} />
           <Stat label="组数" value={totalSets} />
           <Stat label="训练量" value={formatWeight(totalVolume, unit, { decimals: 0 })} />
         </div>

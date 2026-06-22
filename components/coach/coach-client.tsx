@@ -85,11 +85,10 @@ export function CoachClient({
             <AlertTriangle className="size-5 shrink-0 text-amber-600" />
             <div>
               <p className="font-medium text-amber-900 dark:text-amber-100">
-                {providerLabel} key missing
+                {providerLabel} API密钥缺失
               </p>
               <p className="text-xs text-muted-foreground">
-                Set <code>{apiKeyEnvVar}</code> in <code>.env</code>{' '}
-                to enable the coach.
+                在 <code>.env</code> 中设置 <code>{apiKeyEnvVar}</code> 以启用教练功能。
               </p>
             </div>
           </CardContent>
@@ -106,12 +105,12 @@ export function CoachClient({
             {pending ? (
               <>
                 <Loader2 className="size-5 animate-spin" />
-                <span className="ml-2">Generating (10-20s)...</span>
+                <span className="ml-2">生成中（10-20秒）...</span>
               </>
             ) : (
               <>
                 <Sparkles className="size-5" />
-                <span className="ml-2">Request a weekly debrief</span>
+                <span className="ml-2">请求每周复盘</span>
               </>
             )}
           </Button>
@@ -135,7 +134,7 @@ export function CoachClient({
         <Card>
           <CardContent className="flex items-center gap-3 py-8 text-sm text-muted-foreground">
             <MessageCircle className="size-5" />
-            <span>No debrief yet. Start your first one above.</span>
+            <span>暂无复盘。点击上方按钮开始第一次复盘。</span>
           </CardContent>
         </Card>
       )}
@@ -143,7 +142,7 @@ export function CoachClient({
       {history.length > 1 && (
         <div>
           <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-            History
+            历史记录
           </h3>
           <ul className="flex flex-col gap-2">
             {history.map((h) => {
@@ -165,7 +164,7 @@ export function CoachClient({
                       </span>
                       {h.appliedAt && (
                         <Badge variant="secondary" className="text-xs">
-                          Applied
+                          已应用
                         </Badge>
                       )}
                     </div>
@@ -200,15 +199,15 @@ function ActiveDebrief({
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               <h2 className="text-base font-semibold">
-                Debrief from {formatDate(active.createdAt)}
+                {formatDate(active.createdAt)} 的复盘
               </h2>
               <p className="text-xs text-muted-foreground">
-                Week of {formatDate(active.weekStart)}
+                第 {formatDate(active.weekStart)} 周
               </p>
             </div>
             {active.appliedAt && (
               <Badge variant="secondary" className="shrink-0">
-                Applied
+                已应用
               </Badge>
             )}
           </div>
@@ -219,7 +218,7 @@ function ActiveDebrief({
           </article>
           {parseErrors.length > 0 && (
             <p className="mt-3 text-xs text-amber-600">
-              Adjustments block ignored: {parseErrors[0]}
+              调整块被忽略：{parseErrors[0]}
             </p>
           )}
         </CardContent>
@@ -239,9 +238,9 @@ function ActiveDebrief({
 }
 
 function formatDate(iso: string) {
-  return new Intl.DateTimeFormat('en-US', {
+  return new Intl.DateTimeFormat('zh-CN', {
     day: '2-digit',
-    month: 'long',
+    month: 'numeric',
     year: 'numeric',
   }).format(new Date(iso));
 }

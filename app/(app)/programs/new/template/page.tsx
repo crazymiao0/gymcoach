@@ -14,14 +14,13 @@ export default async function TemplateProgramPage() {
         <Button asChild variant="ghost" size="sm" className="self-start">
           <Link href="/programs/new">
             <ChevronLeft className="size-4" />
-            <span className="ml-1">Back</span>
+            <span className="ml-1">返回</span>
           </Link>
         </Button>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Start from a template</h1>
+          <h1 className="text-2xl font-bold tracking-tight">从模板开始</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Instantiate a well-known program as written. The AI coach advises
-            within it - it will not silently restructure your program.
+            从成熟方案中实例化一个经典训练计划。AI教练会在其范围内提供建议——不会擅自调整你的方案结构。
           </p>
         </div>
         <TemplatePicker templates={programTemplates} />

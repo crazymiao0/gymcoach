@@ -63,3 +63,7 @@ docs/media/raw/
 /prisma/generated/
 *.db
 *.db-journal
+
+# SQLite files
+*.sqlite
+*.sqlite3

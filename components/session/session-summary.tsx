@@ -41,8 +41,8 @@ export interface SessionPR {
 }
 
 const PR_TYPE_LABEL: Record<PRType, string> = {
-  weight: 'heaviest load',
-  e1rm: 'best est. 1RM',
+  weight: '最大负重',
+  e1rm: '最佳估算 1RM',
 };
 
 // Computes which exercises set a personal record during this session. PR math
@@ -153,7 +153,7 @@ export function SessionSummary({
         body: JSON.stringify({ notes }),
       });
       if (!res.ok) {
-        toast.error('Could not save the notes.');
+        toast.error('无法保存备注。');
         return;
       }
     }
@@ -165,18 +165,18 @@ export function SessionSummary({
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 px-4 py-6">
         <Button variant="ghost" size="sm" onClick={onBack} className="self-start">
           <ChevronLeft className="size-4" />
-          <span className="ml-1">Back to the session</span>
+          <span className="ml-1">返回训练</span>
         </Button>
 
-        <h1 className="text-2xl font-bold tracking-tight">Session summary</h1>
+        <h1 className="text-2xl font-bold tracking-tight">训练总结</h1>
 
         <div className="grid grid-cols-3 gap-3">
-          <Stat label="Duration" value={`${durationMin} min`} />
-          <Stat label="Sets" value={totalSets} />
-          <Stat label="Volume" value={formatWeight(totalVolume, unit, { decimals: 0 })} />
+          <Stat label="时长" value={`${durationMin} min`} />
+          <Stat label="组数" value={totalSets} />
+          <Stat label="训练量" value={formatWeight(totalVolume, unit, { decimals: 0 })} />
         </div>
         <p className="text-xs text-muted-foreground">
-          Volume = Σ (load × reps), {totalReps} reps total.
+          训练量 = Σ (重量 × 次数)，共 {totalReps} 次。
         </p>
 
         {sessionPRs.length > 0 && (
@@ -184,9 +184,9 @@ export function SessionSummary({
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
                 <Trophy className="size-4 text-primary" />
-                Personal records this session
+                本次训练个人纪录
               </CardTitle>
-              <CardDescription>New bests versus your last session</CardDescription>
+              <CardDescription>相较于上次训练的新突破</CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
               <ul className="divide-y divide-border">
@@ -216,8 +216,8 @@ export function SessionSummary({
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Exercises</CardTitle>
-            <CardDescription>Progress per exercise</CardDescription>
+            <CardTitle className="text-base">动作</CardTitle>
+            <CardDescription>各动作进度</CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
             <ul className="divide-y divide-border">
@@ -235,11 +235,11 @@ export function SessionSummary({
                     <span className="truncate">{s.pe.exercise.name}</span>
                   </div>
                   <span className="flex-shrink-0 text-xs text-muted-foreground">
-                    {s.doneSets}/{s.targetSets} sets
+                    {s.doneSets}/{s.targetSets} 组
                     {s.cardioLabel
                       ? ` · ${s.cardioLabel}`
                       : s.maxWeight > 0
-                        ? ` · max ${formatWeight(s.maxWeight, unit, { decimals: 2, group: false })}`
+                        ? ` · 最大 ${formatWeight(s.maxWeight, unit, { decimals: 2, group: false })}`
                         : ''}
                   </span>
                 </li>
@@ -249,13 +249,13 @@ export function SessionSummary({
         </Card>
 
         <div className="space-y-2">
-          <Label htmlFor="session-notes">Session note (optional)</Label>
+          <Label htmlFor="session-notes">训练备注（可选）</Label>
           <Textarea
             id="session-notes"
             rows={3}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            placeholder="Overall feel, pain, points to work on..."
+            placeholder="整体感受、酸痛、需要改进的地方……"
           />
         </div>
 
@@ -264,7 +264,7 @@ export function SessionSummary({
           disabled={finishing}
           className="h-16 w-full text-base font-semibold"
         >
-          {finishing ? 'Finishing...' : 'Finish the session'}
+          {finishing ? '完成中...' : '完成训练'}
         </Button>
       </div>
     </main>

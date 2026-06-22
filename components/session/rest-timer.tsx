@@ -42,7 +42,7 @@ export function RestTimer({ endsAt, totalSec, nextLabel, onEnd, onSkip, onAdd30 
   return (
     <Card>
       <CardContent className="flex flex-col items-center gap-4 py-8">
-        <p className="text-xs uppercase tracking-wider text-muted-foreground">Rest</p>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground">休息</p>
 
         <div className="relative">
           <p className="text-7xl font-bold tabular-nums">
@@ -60,18 +60,18 @@ export function RestTimer({ endsAt, totalSec, nextLabel, onEnd, onSkip, onAdd30 
 
         {nextLabel && (
           <p className="text-center text-sm text-muted-foreground">
-            Next: <span className="font-medium text-foreground">{nextLabel}</span>
+            下一个：<span className="font-medium text-foreground">{nextLabel}</span>
           </p>
         )}
 
         <div className="flex w-full max-w-sm gap-2">
           <Button variant="outline" onClick={onAdd30} className="min-h-tap flex-1">
             <Plus className="size-4" />
-            <span className="ml-1">30s</span>
+            <span className="ml-1">+30秒</span>
           </Button>
           <Button variant="default" onClick={onSkip} className="min-h-tap flex-1">
             <FastForward className="size-4" />
-            <span className="ml-1">Skip</span>
+            <span className="ml-1">跳过</span>
           </Button>
         </div>
       </CardContent>

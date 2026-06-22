@@ -22,13 +22,13 @@ interface Props {
 }
 
 const PR_LABEL: Record<PRType, string> = {
-  weight: 'Weight PR',
+  weight: '重量PR',
   e1rm: 'e1RM PR',
 };
 
 const PR_TITLE: Record<PRType, string> = {
-  weight: 'Heaviest load since your last session',
-  e1rm: 'Best estimated 1RM since your last session',
+  weight: '自上次训练以来的最大负重',
+  e1rm: '自上次训练以来的最佳估算 1RM',
 };
 
 export function SetsList({ programExercise, sets, isInputActive, onDeleteSet, priorSets }: Props) {
@@ -64,8 +64,7 @@ export function SetsList({ programExercise, sets, isInputActive, onDeleteSet, pr
 
       {!isInputActive && completedNonWarmup.length === 0 && sets.length === 0 && (
         <div className="px-3 py-2 text-xs text-muted-foreground">
-          No sets yet. Once the rest ends you will be able to log
-          set {currentSetNumber}.
+          还没有组。休息结束后即可记录第 {currentSetNumber} 组。
         </div>
       )}
     </div>
@@ -81,7 +80,7 @@ function RowDone({
   prs: PRType[];
   onDelete: () => void;
 }) {
-  const weightLabel = set.weight === 0 ? 'BW' : `${set.weight} kg`;
+  const weightLabel = set.weight === 0 ? '自重' : `${set.weight} kg`;
   // Cardio sets (issue #133) render as duration/distance, never weight x reps.
   const isCardio = set.durationSec != null;
   return (
@@ -89,9 +88,9 @@ function RowDone({
       <div className="flex min-w-0 items-center gap-2">
         <SyncIcon status={set.status} />
         <span className="text-sm font-medium">
-          Set {set.setNumber}
-          {set.isWarmup ? ' (warmup)' : ''}
-          {set.isDropSet ? ' (drop)' : ''}
+          第 {set.setNumber} 组
+          {set.isWarmup ? ' (热身)' : ''}
+          {set.isDropSet ? ' (递减)' : ''}
         </span>
         <span className="truncate text-sm text-muted-foreground">
           {isCardio ? (
@@ -111,7 +110,7 @@ function RowDone({
         ))}
         {set.notes && (
           <Badge variant="secondary" className="text-xs">
-            note
+            备注
           </Badge>
         )}
       </div>
@@ -119,7 +118,7 @@ function RowDone({
         variant="ghost"
         size="icon"
         onClick={onDelete}
-        aria-label="Delete the set"
+        aria-label="删除该组"
         className="size-8 text-muted-foreground hover:text-destructive"
       >
         <Trash2 className="size-3.5" />
@@ -151,7 +150,7 @@ function RowUpcoming({ setNumber, isCurrent }: { setNumber: number; isCurrent: b
         <Circle className="size-4 flex-shrink-0 text-muted-foreground" />
       )}
       <span className={`text-sm ${isCurrent ? 'font-medium' : 'text-muted-foreground'}`}>
-        Set {setNumber} {isCurrent ? '· in progress' : '· upcoming'}
+        第 {setNumber} 组 {isCurrent ? '· 进行中' : '· 待进行'}
       </span>
     </div>
   );

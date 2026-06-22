@@ -83,7 +83,7 @@ export default async function HistoryPage(
       <div className="mx-auto flex max-w-2xl flex-col gap-6">
         <div className="flex items-center gap-3">
           <HistoryIcon className="size-6" />
-          <h1 className="text-2xl font-bold tracking-tight">History</h1>
+          <h1 className="text-2xl font-bold tracking-tight">历史记录</h1>
         </div>
 
         <HistoryFilters
@@ -96,15 +96,15 @@ export default async function HistoryPage(
           hasActiveFilters ? (
             <Card>
               <CardContent className="py-8 text-center text-sm text-muted-foreground">
-                No finished session matches these filters.
+                没有符合筛选条件的已完成训练。
               </CardContent>
             </Card>
           ) : (
             <EmptyState
               icon={HistoryIcon}
-              title="No sessions logged yet"
-              description="Finish your first workout and it will show up here with its volume, sets, and duration."
-              action={{ label: 'Log your first session', href: '/session/new' }}
+              title="还没有训练记录"
+              description="完成你的第一次训练后，这里将显示训练量、组数和时长。"
+              action={{ label: '开始第一次训练', href: '/session/new' }}
             />
           )
         ) : (
@@ -135,7 +135,7 @@ export default async function HistoryPage(
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Calendar className="size-3" />
                             <span>
-                              {new Intl.DateTimeFormat('en-US', {
+                              {new Intl.DateTimeFormat('zh-CN', {
                                 day: '2-digit',
                                 month: 'long',
                                 year: 'numeric',
@@ -143,20 +143,20 @@ export default async function HistoryPage(
                             </span>
                           </div>
                           <p className="mt-0.5 truncate text-base font-medium">
-                            {s.workout?.name ?? 'Free session'}
+                            {s.workout?.name ?? '自由训练'}
                           </p>
                           <div className="mt-1 flex flex-wrap gap-1.5 text-xs">
                             {s.program && (
                               <Badge variant="secondary">{s.program.name}</Badge>
                             )}
                             <Badge variant="outline">
-                              {workingSets} set{workingSets > 1 ? 's' : ''}
+                              {workingSets} 组
                             </Badge>
                             <Badge variant="outline">
-                              {formatWeight(volume, unit, { decimals: 0 })} vol.
+                              {formatWeight(volume, unit, { decimals: 0 })} 训练量
                             </Badge>
                             {durationMin != null && (
-                              <Badge variant="outline">{durationMin} min</Badge>
+                              <Badge variant="outline">{durationMin} 分钟</Badge>
                             )}
                           </div>
                         </div>

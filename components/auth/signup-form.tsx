@@ -53,19 +53,19 @@ export function SignupForm() {
     }
 
     const data = (await res.json().catch(() => null)) as { error?: string } | null;
-    setServerError(data?.error ?? 'Sign up error.');
+    setServerError(data?.error ?? '注册出错。');
   }
 
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Create your account</CardTitle>
-        <CardDescription>Start tracking your training.</CardDescription>
+        <CardTitle>创建账户</CardTitle>
+        <CardDescription>开始记录你的训练。</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
           <div className="space-y-2">
-            <Label htmlFor="displayName">Name</Label>
+            <Label htmlFor="displayName">昵称</Label>
             <Input
               id="displayName"
               autoComplete="name"
@@ -78,7 +78,7 @@ export function SignupForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">邮箱</Label>
             <Input
               id="email"
               type="email"
@@ -95,7 +95,7 @@ export function SignupForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">密码</Label>
             <Input
               id="password"
               type="password"
@@ -119,16 +119,16 @@ export function SignupForm() {
             className="min-h-tap w-full text-base"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Creating...' : 'Create account'}
+            {isSubmitting ? '创建中...' : '创建账户'}
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{' '}
+            已有账户？{' '}
             <Link
               href="/login"
               className="font-medium text-foreground underline-offset-4 hover:underline"
             >
-              Sign in
+              登录
             </Link>
           </p>
         </form>

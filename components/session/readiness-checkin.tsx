@@ -49,7 +49,7 @@ export function ReadinessCheckin() {
 
   async function submit() {
     if (readiness === null || sleepQuality === null) {
-      toast.error('Rate both readiness and sleep first.');
+      toast.error('请先评价准备度和睡眠质量。');
       return;
     }
     // Only send a soreness map / note when the user actually filled them in, so
@@ -66,7 +66,7 @@ export function ReadinessCheckin() {
     // length (etc.) is caught before the round-trip.
     const parsed = readinessCheckinInputSchema.safeParse(payload);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? 'Check-in input is invalid.');
+      toast.error(parsed.error.issues[0]?.message ?? '打卡数据无效。');
       return;
     }
 
@@ -81,11 +81,11 @@ export function ReadinessCheckin() {
         const j = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(j.error ?? `Error ${res.status}`);
       }
-      toast.success('Check-in saved. The coach will factor it in.');
+      toast.success('打卡已保存。教练会参考此数据。');
       setSaved(true);
       setOpen(false);
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Could not save the check-in.');
+      toast.error(e instanceof Error ? e.message : '无法保存打卡数据。');
     } finally {
       setSaving(false);
     }
@@ -102,7 +102,7 @@ export function ReadinessCheckin() {
       >
         <HeartPulse className="size-4" />
         <span className="ml-2">
-          {saved ? 'Update readiness check-in' : 'Readiness check-in (optional)'}
+          {saved ? '更新准备度' : '训练准备度（可选）'}
         </span>
       </Button>
     );
@@ -111,14 +111,14 @@ export function ReadinessCheckin() {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <h2 className="text-base font-semibold">How recovered do you feel?</h2>
+        <h2 className="text-base font-semibold">你今天恢复得怎么样？</h2>
         <p className="text-xs text-muted-foreground">
-          Optional. Rate 1 (low) to 5 (high); the coach uses it to auto-regulate.
+          可选。评分 1（低）到 5（高）；AI 教练会参考此数据自动调整训练。
         </p>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <ScaleRow label="Overall readiness" value={readiness} onChange={setReadiness} />
-        <ScaleRow label="Sleep quality" value={sleepQuality} onChange={setSleepQuality} />
+        <ScaleRow label="整体准备度" value={readiness} onChange={setReadiness} />
+        <ScaleRow label="睡眠质量" value={sleepQuality} onChange={setSleepQuality} />
 
         {!detailsOpen ? (
           <Button
@@ -128,17 +128,16 @@ export function ReadinessCheckin() {
             className="self-start"
             onClick={() => setDetailsOpen(true)}
           >
-            Add soreness / note (optional)
+            添加酸痛 / 备注（可选）
           </Button>
         ) : (
           <div className="flex flex-col gap-4 border-t pt-4">
             <div className="space-y-2">
               <Label className="text-xs uppercase tracking-wide text-muted-foreground">
-                Per-muscle soreness
+                各肌肉酸痛
               </Label>
               <p className="text-xs text-muted-foreground">
-                Rate only the groups that feel sore (1 fresh, 5 very sore). Tap a
-                rating again to clear it.
+                仅评价感觉酸痛的部位（1 无感，5 很酸）。再次点击可清除评分。
               </p>
               <div className="flex flex-col gap-3">
                 {MUSCLE_GROUPS.map((group) => (
@@ -156,7 +155,7 @@ export function ReadinessCheckin() {
                 htmlFor="readiness-note"
                 className="text-xs uppercase tracking-wide text-muted-foreground"
               >
-                Note
+                备注
               </Label>
               <Textarea
                 id="readiness-note"
@@ -164,7 +163,7 @@ export function ReadinessCheckin() {
                 onChange={(e) => setNote(e.target.value)}
                 maxLength={500}
                 rows={3}
-                placeholder="Anything the coach should know (optional)."
+                placeholder="有什么想告诉教练的吗（可选）"
               />
             </div>
           </div>
@@ -177,10 +176,10 @@ export function ReadinessCheckin() {
             onClick={() => setOpen(false)}
             disabled={saving}
           >
-            Skip
+            跳过
           </Button>
           <Button type="button" onClick={submit} disabled={saving}>
-            {saving ? 'Saving...' : 'Save check-in'}
+            {saving ? '保存中...' : '保存'}
           </Button>
         </div>
       </CardContent>

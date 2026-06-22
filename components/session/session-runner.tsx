@@ -246,12 +246,12 @@ export function SessionRunner({
       const res = await fetch(`/api/sets/${set.serverId}`, { method: 'DELETE' });
       if (!res.ok && res.status !== 404) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
-        toast.error(data?.error ?? 'Could not delete.');
+        toast.error(data?.error ?? '删除失败');
         return;
       }
     }
     await db.pendingSets.delete(set.localId);
-    toast.success('Set deleted.');
+    toast.success('已删除');
   }
 
   async function handleFinishSession() {
@@ -332,7 +332,7 @@ export function SessionRunner({
   if (!currentPE) {
     return (
       <main className="flex flex-1 items-center justify-center px-4 py-6">
-        <p className="text-muted-foreground">No exercises in this session.</p>
+        <p className="text-muted-foreground">此训练无动作。</p>
       </main>
     );
   }
@@ -348,16 +348,16 @@ export function SessionRunner({
           <div className="min-w-0">
             <p className="truncate text-xs text-muted-foreground">{workout.name}</p>
             <p className="text-sm font-medium">
-              Exercise {currentIdx + 1}/{programExercises.length} · {currentPE.exercise.name}
+              动作 {currentIdx + 1}/{programExercises.length} · {currentPE.exercise.name}
             </p>
             {supersetView.labels.has(currentPE.id) && (
               <Badge variant="secondary" className="mt-1">
-                Superset {supersetView.labels.get(currentPE.id)}
+                超级组 {supersetView.labels.get(currentPE.id)}
               </Badge>
             )}
             {deloadActive && (
               <Badge variant="secondary" className="mt-1 text-emerald-700 dark:text-emerald-400">
-                Deload week
+                减载周
               </Badge>
             )}
           </div>
@@ -424,7 +424,7 @@ export function SessionRunner({
         <Button variant="outline" size="sm" asChild className="min-h-tap">
           <Link href={`/chat?sessionId=${session.id}`}>
             <MessageSquare className="size-4" />
-            <span className="ml-2">Ask the coach</span>
+            <span className="ml-2">咨询教练</span>
           </Link>
         </Button>
 
@@ -437,7 +437,7 @@ export function SessionRunner({
             className="min-h-tap"
           >
             <ChevronLeft className="size-4" />
-            <span className="ml-1">Previous</span>
+            <span className="ml-1">上一个</span>
           </Button>
 
           <Button
@@ -447,7 +447,7 @@ export function SessionRunner({
             className="min-h-tap"
           >
             <Flag className="size-4" />
-            <span className="ml-2">Finish</span>
+            <span className="ml-2">完成训练</span>
           </Button>
 
           <Button
@@ -457,7 +457,7 @@ export function SessionRunner({
             disabled={navNextIdx == null || mode.kind !== 'input'}
             className="min-h-tap"
           >
-            <span className="mr-1">Next</span>
+            <span className="mr-1">下一个</span>
             <ChevronRight className="size-4" />
           </Button>
         </div>

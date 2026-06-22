@@ -61,3 +61,5 @@ docs/media/raw/
 
 # Prisma 7 generated client (run `prisma generate`)
 /prisma/generated/
+*.db
+*.db-journal

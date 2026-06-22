@@ -5,14 +5,14 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/history', label: 'History' },
-  { href: '/progress', label: 'Progress' },
-  { href: '/coach', label: 'Coach' },
-  { href: '/chat', label: 'Chat' },
-  { href: '/programs', label: 'Programs' },
-  { href: '/exercises', label: 'Catalog' },
-  { href: '/settings', label: 'Settings' },
+  { href: '/', label: '首页' },
+  { href: '/history', label: '历史' },
+  { href: '/progress', label: '进度' },
+  { href: '/coach', label: 'AI教练' },
+  { href: '/chat', label: '聊天' },
+  { href: '/programs', label: '计划' },
+  { href: '/exercises', label: '动作库' },
+  { href: '/settings', label: '设置' },
 ] as const;
 
 export function NavLinks() {

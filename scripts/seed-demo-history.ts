@@ -12,12 +12,9 @@
  * It replaces the demo user's existing sessions to stay reproducible.
  */
 import { PrismaClient, MuscleGroup, ExerciseCategory } from '@/prisma/generated/client';
-import { PrismaPg } from '@prisma/adapter-pg';
 
-// Prisma 7 requires a driver adapter to connect (the Rust engine was removed).
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-});
+// Prisma 6.19 ships with Prisma 7 backports requiring constructor arg.
+const prisma = new PrismaClient({} as never);
 const WEEKS = 12;
 
 // Deterministic RNG so the generated charts are stable across runs.

@@ -2,13 +2,13 @@
 // Single-user, weightlifting tracking and Claude AI coach.
 
 generator client {
-  provider     = "prisma-client"
-  output       = "./generated"
-  moduleFormat = "cjs"
+  provider = "prisma-client-js"
+  output   = "./generated"
 }
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {

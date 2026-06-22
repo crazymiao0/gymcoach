@@ -1,17 +1,88 @@
-// Stable, browser-safe re-export of the generated Prisma 7 client surface.
+// This barrel is the app's single import point for Prisma types and enums.
 //
-// Prisma 7 replaced the legacy `prisma-client-js` generator (which emitted into
-// node_modules/@prisma/client) with the `prisma-client` generator that emits to
-// an explicit output path - here `prisma/generated`. That generator splits the
-// output in two: `client.ts` carries the runtime PrismaClient (and pulls in
-// node:fs etc., so it can only run server-side) while `browser.ts` carries the
-// model types, the enums (WeightUnit, MuscleGroup, ...) and the `Prisma` type
-// namespace with NO runtime - safe to bundle into client components.
+// Prisma 6's generated `index.js` bundles types AND runtime in one file,
+// pulling in Node.js built-ins (node:events) that crash in browser bundles.
+// We bypass that by:
+//   1. Using `export type` for model types — TypeScript erases these at
+//      compile time, so the JS file is never loaded for them.
+//   2. Defining enum constants inline here — they are small and stable.
 //
-// The whole app imports its Prisma types and enums from this one barrel, which
-// points at the browser-safe surface so a 'use client' component pulling in an
-// enum never drags the server runtime into the browser bundle. The handful of
-// server-only modules that need a runtime value (the PrismaClient class in
-// lib/db.ts and the seeds, or Prisma.PrismaClientKnownRequestError in lib/api.ts)
-// import directly from '@/prisma/generated/client' instead.
-export * from '@/prisma/generated/browser';
+// Server-only modules (lib/db.ts, seeds, API routes) import PrismaClient
+// directly from '@/prisma/generated/client'.
+
+/* eslint-disable */
+
+// ---- Model types (compile-time only, erased in JS output) ----
+export type {
+  User, Conversation, Message,
+  Exercise, Program, Workout, ProgramExercise,
+  Session, Set,
+  ExerciseGoal, VolumeTarget,
+  BodyweightEntry, BodyMeasurement,
+  CoachSession, ReadinessCheckin,
+} from '@/prisma/generated/index';
+
+export type { Prisma } from '@/prisma/generated/index';
+
+// ---- Enum runtime values (inline, no runtime dependency) ----
+export const Sex = { MALE: 'MALE', FEMALE: 'FEMALE', OTHER: 'OTHER' } as const;
+export type Sex = (typeof Sex)[keyof typeof Sex];
+
+export const WeightUnit = { KG: 'KG', LB: 'LB' } as const;
+export type WeightUnit = (typeof WeightUnit)[keyof typeof WeightUnit];
+
+export const TrainingGoal = {
+  HYPERTROPHY: 'HYPERTROPHY',
+  STRENGTH: 'STRENGTH',
+  FAT_LOSS: 'FAT_LOSS',
+  RECOMP: 'RECOMP',
+  GENERAL_FITNESS: 'GENERAL_FITNESS',
+} as const;
+export type TrainingGoal = (typeof TrainingGoal)[keyof typeof TrainingGoal];
+
+export const MessageRole = { USER: 'USER', ASSISTANT: 'ASSISTANT' } as const;
+export type MessageRole = (typeof MessageRole)[keyof typeof MessageRole];
+
+export const MuscleGroup = {
+  CHEST: 'CHEST',
+  BACK_WIDTH: 'BACK_WIDTH',
+  BACK_THICKNESS: 'BACK_THICKNESS',
+  SHOULDERS_FRONT: 'SHOULDERS_FRONT',
+  SHOULDERS_LATERAL: 'SHOULDERS_LATERAL',
+  SHOULDERS_REAR: 'SHOULDERS_REAR',
+  BICEPS: 'BICEPS',
+  TRICEPS: 'TRICEPS',
+  FOREARMS: 'FOREARMS',
+  QUADS: 'QUADS',
+  HAMSTRINGS: 'HAMSTRINGS',
+  GLUTES: 'GLUTES',
+  CALVES: 'CALVES',
+  ABS: 'ABS',
+  LOWER_BACK: 'LOWER_BACK',
+  OTHER: 'OTHER',
+} as const;
+export type MuscleGroup = (typeof MuscleGroup)[keyof typeof MuscleGroup];
+
+export const ExerciseCategory = {
+  COMPOUND: 'COMPOUND',
+  ISOLATION: 'ISOLATION',
+  CARDIO: 'CARDIO',
+} as const;
+export type ExerciseCategory = (typeof ExerciseCategory)[keyof typeof ExerciseCategory];
+
+export const BodyMeasurementSite = {
+  WAIST: 'WAIST',
+  HIPS: 'HIPS',
+  CHEST: 'CHEST',
+  SHOULDERS: 'SHOULDERS',
+  NECK: 'NECK',
+  ARM_LEFT: 'ARM_LEFT',
+  ARM_RIGHT: 'ARM_RIGHT',
+  FOREARM_LEFT: 'FOREARM_LEFT',
+  FOREARM_RIGHT: 'FOREARM_RIGHT',
+  THIGH_LEFT: 'THIGH_LEFT',
+  THIGH_RIGHT: 'THIGH_RIGHT',
+  CALF_LEFT: 'CALF_LEFT',
+  CALF_RIGHT: 'CALF_RIGHT',
+} as const;
+export type BodyMeasurementSite = (typeof BodyMeasurementSite)[keyof typeof BodyMeasurementSite];

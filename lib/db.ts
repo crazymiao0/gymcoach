@@ -1,35 +1,29 @@
 import { PrismaClient } from '@/prisma/generated/client';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { existsSync, readFileSync } from 'node:fs';
+
+// Fallback: ensure DATABASE_URL is loaded from .env even if Next.js didn't pick it up.
+if (!process.env.DATABASE_URL && existsSync('.env')) {
+  for (const line of readFileSync('.env', 'utf8').split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('DATABASE_URL=')) {
+      const val = trimmed.slice('DATABASE_URL='.length);
+      process.env.DATABASE_URL = val.replace(/^["']|["']$/g, '');
+      break;
+    }
+  }
+}
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Prisma 7 removed the bundled Rust query engine: the client now talks to the
-// database through a JavaScript driver adapter. We pick the right adapter based
-// on DATABASE_URL: PostgreSQL uses PrismaPg, SQLite uses PrismaLibSQL.
+// Prisma 6 ships with a built-in Rust query engine that supports SQLite natively.
+// No driver adapter needed - unlike Prisma 7 which removed the bundled engine.
 
 function createClient(): PrismaClient {
-  const url = process.env.DATABASE_URL ?? '';
-  if (url.startsWith('postgresql') || url.startsWith('postgres://')) {
-    const adapter = new PrismaPg({ connectionString: url });
-    return new PrismaClient({
-      adapter,
-      log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-    });
-  }
-  // SQLite via libSQL adapter (Prisma 7 needs a driver adapter for all providers).
-  // Use require() to avoid TypeScript type conflicts between Client and Config.
-  /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-  const { createClient: createLibSql } = require('@libsql/client');
-  const { PrismaLibSql: PgLibSql } = require('@prisma/adapter-libsql');
-  /* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-  const libsql = createLibSql({ url });
-  const adapter = new PgLibSql(libsql);
   return new PrismaClient({
-    adapter,
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-  });
+  } as never);
 }
 
 export const db = globalForPrisma.prisma ?? createClient();

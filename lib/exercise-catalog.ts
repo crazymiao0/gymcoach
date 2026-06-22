@@ -18,210 +18,210 @@ export interface CatalogExercise {
 export const EXERCISE_CATALOG: CatalogExercise[] = [
   // Chest
   {
-    name: 'Barbell bench press',
+    name: '杠铃卧推',
     muscleGroup: MuscleGroup.CHEST,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 150,
-    notes: 'Bar in the heel of the palm, wrist aligned with the forearm. Elbows at 45 degrees from the torso. Touch the chest.',
+    notes: '杠铃位于掌根，手腕与前臂对齐。肘部与躯干成45度角。触胸。',
   },
   {
-    name: 'Incline dumbbell press (30 deg)',
+    name: '上斜哑铃卧推（30度）',
     muscleGroup: MuscleGroup.CHEST,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Bench at 30 degrees. Tempo 3-0-1-0. Do not lock the elbows at the top. Upper-chest focus.',
+    notes: '长凳调至30度。节奏3-0-1-0。顶部不要锁定肘关节。专注上胸。',
   },
   {
-    name: 'Pec deck (or cable fly)',
+    name: '蝴蝶机夹胸（或龙门架飞鸟）',
     muscleGroup: MuscleGroup.CHEST,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Elbows 5 to 10 degrees below the shoulder line. Driven by the elbows. Pause at the stretch and at the contraction.',
+    notes: '肘部低于肩线5到10度。由肘部驱动。在拉伸和收缩位各停顿一秒。',
   },
 
   // Back
   {
-    name: 'Pronated pull-ups (weighted if possible)',
+    name: '正手引体向上（可负重）',
     muscleGroup: MuscleGroup.BACK_WIDTH,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
     usesBodyweight: true,
-    notes: 'Pronated grip, shoulder width + 10 cm. Strict tempo. Pull with the elbows toward the hips. Add load once 4x10 is reached.',
+    notes: '正手握法，肩宽+10厘米。严格节奏。用肘部向髋部方向拉。达到4x10后增加负重。',
   },
   {
-    name: 'Lat pulldown (wide grip)',
+    name: '高位下拉（宽握）',
     muscleGroup: MuscleGroup.BACK_WIDTH,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Wide pronated grip. Pull to the collarbones, shoulder blades down. Torso slightly leaned back.',
+    notes: '宽距正握。拉至锁骨位置，肩胛骨下沉。躯干微微后倾。',
   },
   {
-    name: 'Bent-over barbell row',
+    name: '俯身杠铃划船',
     muscleGroup: MuscleGroup.BACK_THICKNESS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Torso 30 to 45 degrees, flat back. Pull toward the navel. Elbows close to the body.',
+    notes: '躯干前倾30至45度，背部挺直。拉向肚脐方向。肘部贴近身体。',
   },
   {
-    name: 'Seated cable row (close handles)',
+    name: '坐姿绳索划船（对握手柄）',
     muscleGroup: MuscleGroup.BACK_THICKNESS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 90,
-    notes: 'Parallel handles. Pull toward the navel. Squeeze the shoulder blades. Elbows close to the body.',
+    notes: '对握手柄。拉向肚脐方向。挤压肩胛骨。肘部贴近身体。',
   },
 
   // Shoulders
   {
-    name: 'Seated dumbbell overhead press',
+    name: '坐姿哑铃推举',
     muscleGroup: MuscleGroup.SHOULDERS_FRONT,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Bench at 90 degrees with a backrest. No lower-back arch. Lower down to the ears.',
+    notes: '靠背调至90度。下背部不要反弓。下放至耳朵高度。',
   },
   {
-    name: 'Cable lateral raises',
+    name: '龙门架侧平举',
     muscleGroup: MuscleGroup.SHOULDERS_LATERAL,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Cable in front of the body. Elbow slightly bent. Lead with the elbow. Stop at shoulder height. Slow descent.',
+    notes: '绳索位于身体前方。肘部微屈。以肘部带动。停在肩部高度。缓慢下落。',
   },
   {
-    name: 'Machine rear delt fly',
+    name: '反向蝴蝶机飞鸟',
     muscleGroup: MuscleGroup.SHOULDERS_REAR,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Reverse pec deck. Driven by the elbows toward the back. Palms facing the floor. Squeeze 1s.',
+    notes: '反向蝴蝶机。由肘部向后带动。掌心朝下。挤压1秒。',
   },
 
   // Biceps
   {
-    name: 'EZ-bar curl',
+    name: 'EZ杠弯举',
     muscleGroup: MuscleGroup.BICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'No swinging. Squeeze 1s at the top. Elbows close to the body.',
+    notes: '不要晃动。顶部挤压1秒。肘部贴近身体。',
   },
   {
-    name: 'Incline dumbbell curl (bench 60 deg)',
+    name: '上斜哑铃弯举（长凳60度）',
     muscleGroup: MuscleGroup.BICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Bench at 60 degrees. Elbows behind the torso, fixed. Supinate on the way up. Full stretch at the bottom (Maeo 2021).',
+    notes: '长凳调至60度。肘部位于躯干后方固定。上举时旋后。底部充分拉伸（Maeo 2021）。',
   },
 
   // Triceps
   {
-    name: 'Machine dips or parallel bars',
+    name: '双杠臂屈伸或双杠',
     muscleGroup: MuscleGroup.TRICEPS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 75,
     usesBodyweight: true,
-    notes: 'Vertical torso for triceps focus. On an assisted machine, log the machine assistance setting as the added load.',
+    notes: '躯干垂直以专注肱三头肌。使用辅助器械时，将辅助重量记录为额外负重。',
   },
   {
-    name: 'Triceps pushdown (rope)',
+    name: '绳索下压',
     muscleGroup: MuscleGroup.TRICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Elbows pinned to the body. Spread the rope at the bottom. Do not snap the elbow into lockout (95% max extension).',
+    notes: '肘部固定于身体两侧。底部将绳索分开。不要将肘部弹入锁定状态（最大伸展95%）。',
   },
 
   // Quads
   {
-    name: 'Machine squat (or Hack squat)',
+    name: '倒蹬机（或哈克深蹲）',
     muscleGroup: MuscleGroup.QUADS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 150,
-    notes: 'Depth to parallel thighs. Controlled 3s descent.',
+    notes: '下蹲至大腿与地面平行。控制3秒下放。',
   },
   {
-    name: 'Leg extension',
+    name: '腿屈伸',
     muscleGroup: MuscleGroup.QUADS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Pause 1s at the top. Neutral feet.',
+    notes: '顶部停顿1秒。脚踝保持中立位。',
   },
   {
-    name: 'Walking lunges with dumbbells',
+    name: '哑铃箭步走',
     muscleGroup: MuscleGroup.QUADS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 90,
-    notes: 'Knee to 1 cm from the floor, no bounce.',
+    notes: '膝盖距地面1厘米，不要弹起。',
   },
 
   // Hamstrings
   {
-    name: 'Dumbbell Romanian Deadlift',
+    name: '哑铃罗马尼亚硬拉',
     muscleGroup: MuscleGroup.HAMSTRINGS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Push the hips back, flat back. Knees slightly bent. Maximal hamstring stretch.',
+    notes: '臀部向后推，背部挺直。膝盖微屈。最大程度拉伸腘绳肌。',
   },
   {
-    name: 'Seated leg curl',
+    name: '坐姿腿弯举',
     muscleGroup: MuscleGroup.HAMSTRINGS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Pause 1s at the contraction. Full range of motion.',
+    notes: '收缩位停顿1秒。全范围运动。',
   },
 
   // Glutes
   {
-    name: 'Barbell hip thrust (or machine)',
+    name: '杠铃臀推（或器械）',
     muscleGroup: MuscleGroup.GLUTES,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Pause 1s at the top, neutral neck. Lock the glutes at the top.',
+    notes: '顶部停顿1秒，颈部中立。顶部锁定臀部。',
   },
 
   // Adductors
   {
-    name: 'Hip adduction machine',
+    name: '髋内收机',
     muscleGroup: MuscleGroup.QUADS, // approximation, no dedicated group
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Pause 1s at the contraction.',
+    notes: '收缩位停顿1秒。',
   },
 
   // Calves
   {
-    name: 'Standing calf raise (or machine)',
+    name: '站姿提踵（或器械）',
     muscleGroup: MuscleGroup.CALVES,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Gastrocnemius (legs straight). Full range, pause 1s at the bottom. No bounce.',
+    notes: '腓肠肌（腿伸直）。全范围，底部停顿1秒。不要弹动。',
   },
   {
-    name: 'Seated calf raise machine',
+    name: '坐姿提踵机',
     muscleGroup: MuscleGroup.CALVES,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Soleus (legs bent 90 degrees). Pause at the bottom stretch. Tempo 3-1-1-1. No bounce.',
+    notes: '比目鱼肌（腿弯曲90度）。底部拉伸位停顿。节奏3-1-1-1。不要弹动。',
   },
 
   // Abs
   {
-    name: 'Cable crunch (kneeling)',
+    name: '绳索卷腹（跪姿）',
     muscleGroup: MuscleGroup.ABS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Hips locked. Roll the spine. Bring the ribs toward the pelvis.',
+    notes: '髋部锁定。卷曲脊柱。将肋骨向骨盆方向移动。',
   },
   {
-    name: 'Hanging leg raises',
+    name: '悬垂举腿',
     muscleGroup: MuscleGroup.ABS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
     usesBodyweight: true,
-    notes: 'Control 2s on the way down. No swinging.',
+    notes: '下放控制2秒。不要晃动。',
   },
   {
-    name: 'Plank + side plank',
+    name: '平板支撑+侧平板支撑',
     muscleGroup: MuscleGroup.ABS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 45,
     usesBodyweight: true,
-    notes: 'Core stability. 1 round as a finisher.',
+    notes: '核心稳定性。作为收尾做1组。',
   },
 
   // ============================================================
@@ -230,202 +230,202 @@ export const EXERCISE_CATALOG: CatalogExercise[] = [
 
   // Chest
   {
-    name: 'Flat dumbbell bench press',
+    name: '平板哑铃卧推',
     muscleGroup: MuscleGroup.CHEST,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Dumbbells let each side work independently. Wrists stacked over the elbows. Touch at chest level, do not lock out hard.',
+    notes: '哑铃让两侧独立发力。手腕位于肘部正上方。触胸位置，不要完全锁定。',
   },
   {
-    name: 'Machine chest press',
+    name: '坐姿推胸机',
     muscleGroup: MuscleGroup.CHEST,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 90,
-    notes: 'Handles at mid-chest height. Drive through the chest, stop just short of lockout. Great for pushing close to failure safely.',
+    notes: '把手位于胸中部高度。通过胸部发力，在锁定前停止。适合安全地接近力竭。',
   },
 
   // Back
   {
-    name: 'Neutral-grip lat pulldown',
+    name: '对握高位下拉',
     muscleGroup: MuscleGroup.BACK_WIDTH,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Palms facing, shoulder-width handle. Pull to the upper chest, drive the elbows down and back.',
+    notes: '掌心相对，肩宽握把。拉向上胸部，肘部向下后方驱动。',
   },
   {
-    name: 'Straight-arm cable pulldown',
+    name: '直臂绳索下压',
     muscleGroup: MuscleGroup.BACK_WIDTH,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Arms nearly straight, slight elbow bend held fixed. Drive the bar to the thighs with the lats. Big stretch at the top.',
+    notes: '手臂近乎伸直，保持微屈肘。用背阔肌将杠铃推向大腿。顶部大幅拉伸。',
   },
   {
-    name: 'Chest-supported machine row',
+    name: '坐姿器械划船（有胸垫）',
     muscleGroup: MuscleGroup.BACK_THICKNESS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 90,
-    notes: 'Chest pad removes lower-back fatigue. Row to the torso, squeeze the shoulder blades, control the stretch.',
+    notes: '胸垫消除了下背部疲劳。划向躯干，挤压肩胛骨，控制拉伸。',
   },
   {
-    name: 'Single-arm dumbbell row',
+    name: '单臂哑铃划船',
     muscleGroup: MuscleGroup.BACK_THICKNESS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 90,
-    notes: 'Knee and hand on the bench, flat back. Pull toward the hip, elbow close to the body. Full stretch at the bottom.',
+    notes: '膝盖和手撑在长凳上，背部挺直。拉向髋部，肘部贴近身体。底部充分拉伸。',
   },
 
   // Shoulders
   {
-    name: 'Standing barbell overhead press',
+    name: '站姿杠铃推举',
     muscleGroup: MuscleGroup.SHOULDERS_FRONT,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 150,
-    notes: 'Brace the core, glutes tight, no excessive arch. Bar travels over the mid-foot. Lock out with the head through.',
+    notes: '收紧核心，臀部收紧，不要过度反弓。杠铃沿足中上方轨迹移动。头部前穿锁定。',
   },
   {
-    name: 'Dumbbell lateral raise',
+    name: '哑铃侧平举',
     muscleGroup: MuscleGroup.SHOULDERS_LATERAL,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Slight forward lean, elbows soft. Lead with the elbows to shoulder height. Control the descent, no swinging.',
+    notes: '微微前倾，肘部微屈。以肘部带动至肩部高度。控制下落，不要晃动。',
   },
   {
-    name: 'Face pull (rope)',
+    name: '面拉（绳索）',
     muscleGroup: MuscleGroup.SHOULDERS_REAR,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Cable at face height. Pull the rope apart toward the forehead, externally rotate. Rear delts and upper back.',
+    notes: '绳索调至面部高度。将绳索向额头方向拉开，外旋。刺激后束和上背部。',
   },
 
   // Biceps
   {
-    name: 'Standing cable curl (straight bar)',
+    name: '站姿绳索弯举（直杆）',
     muscleGroup: MuscleGroup.BICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Constant cable tension through the range. Elbows pinned. Squeeze 1s at the top, no swinging.',
+    notes: '全程保持绳索张力。肘部固定。顶部挤压1秒，不要晃动。',
   },
   {
-    name: 'Concentration curl',
+    name: '集中弯举',
     muscleGroup: MuscleGroup.BICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Seated, elbow braced on the inner thigh. Strict, full contraction. High peak-contraction tension.',
+    notes: '坐姿，肘部撑在大腿内侧。严格，全程收缩。高顶峰收缩张力。',
   },
 
   // Forearms
   {
-    name: 'Barbell wrist curl',
+    name: '杠铃腕弯举',
     muscleGroup: MuscleGroup.FOREARMS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Forearms on the thighs or a bench, palms up. Let the bar roll to the fingers, then curl the wrists up. Full range, no momentum.',
+    notes: '前臂置于大腿或长凳上，掌心向上。让杠铃滚到手指，然后卷起手腕。全范围，不要借力。',
   },
   {
-    name: 'Reverse EZ-bar curl',
+    name: '反握EZ杠弯举',
     muscleGroup: MuscleGroup.FOREARMS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Pronated (palms down) grip. Targets the brachioradialis and wrist extensors. Lighter load, strict tempo.',
+    notes: '正握（掌心向下）握法。针对肱桡肌和腕伸肌。较轻负重，严格节奏。',
   },
 
   // Biceps (brachialis emphasis)
   {
-    name: 'Hammer curl (dumbbell)',
+    name: '锤式弯举（哑铃）',
     muscleGroup: MuscleGroup.BICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Neutral grip throughout. Emphasizes the brachialis and brachioradialis. Elbows fixed, no swinging.',
+    notes: '全程对握。强调肱肌和肱桡肌。肘部固定，不要晃动。',
   },
 
   // Triceps
   {
-    name: 'Close-grip bench press',
+    name: '窄距杠铃卧推',
     muscleGroup: MuscleGroup.TRICEPS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Grip just inside shoulder width. Elbows tucked. Bar to the lower chest. Triceps-biased pressing.',
+    notes: '握距略窄于肩宽。肘部内收。杠铃落至下胸。偏向肱三头肌的推举。',
   },
   {
-    name: 'Overhead cable triceps extension',
+    name: '过头绳索臂屈伸',
     muscleGroup: MuscleGroup.TRICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Rope from a low or high pulley, facing away. Long-head stretch overhead. Extend fully, keep the elbows in.',
+    notes: '使用低或高滑轮绳索，背对器械。长头在头部上方拉伸。完全伸展，保持肘部内收。',
   },
   {
-    name: 'EZ-bar skull crusher',
+    name: 'EZ杠仰卧臂屈伸',
     muscleGroup: MuscleGroup.TRICEPS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Lower to the forehead or behind the head for more stretch. Elbows pointing up, kept narrow. Controlled descent.',
+    notes: '下放至额头或头后以获得更多拉伸。肘部朝上，保持窄距。控制下落。',
   },
 
   // Quads
   {
-    name: 'Leg press (45 deg)',
+    name: '倒蹬机（45度）',
     muscleGroup: MuscleGroup.QUADS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 150,
-    notes: 'Feet mid-platform, shoulder width. Lower until the knees reach the chest without the lower back rounding. Do not lock out hard.',
+    notes: '脚放在踏板中部，肩宽。下放至膝盖靠近胸部，下背部不要弓起。不要完全锁定。',
   },
   {
-    name: 'Goblet squat',
+    name: '高脚杯深蹲',
     muscleGroup: MuscleGroup.QUADS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Hold a dumbbell at the chest. Upright torso, elbows inside the knees at the bottom. Great for learning depth.',
+    notes: '胸前托举哑铃。躯干直立，底部肘部在膝盖内侧。适合学习深蹲深度。',
   },
   {
-    name: 'Bulgarian split squat',
+    name: '保加利亚分腿蹲',
     muscleGroup: MuscleGroup.QUADS,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 90,
-    notes: 'Rear foot elevated. Most weight on the front leg, vertical shin bias for quads. Control the descent.',
+    notes: '后脚垫高。大部分重量在前腿，小腿垂直以刺激股四头肌。控制下放。',
   },
 
   // Hamstrings
   {
-    name: 'Lying leg curl',
+    name: '俯卧腿弯举',
     muscleGroup: MuscleGroup.HAMSTRINGS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 75,
-    notes: 'Hips pinned to the pad. Curl fully, pause 1s at the contraction, control the negative. No hip lift.',
+    notes: '髋部压在垫子上。完全弯举，收缩位停顿1秒，控制离心。不要抬髋。',
   },
 
   // Glutes
   {
-    name: 'Cable glute kickback',
+    name: '绳索臀后踢',
     muscleGroup: MuscleGroup.GLUTES,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Ankle strap on a low pulley. Hinge slightly, drive the heel back and up. Squeeze the glute at the top, no lower-back arch.',
+    notes: '脚踝绑带在低滑轮上。微微俯身，将脚跟向后上方驱动。顶部挤压臀部，下背部不要反弓。',
   },
 
   // Lower back
   {
-    name: 'Back extension (hyperextension)',
+    name: '背伸（山羊挺身）',
     muscleGroup: MuscleGroup.LOWER_BACK,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
     usesBodyweight: true,
-    notes: 'Hips on the pad. Round and extend through the spine, or stay rigid to bias the glutes. Add a plate for load.',
+    notes: '髋部置于垫上。卷曲并伸展脊柱，或保持刚硬以刺激臀部。加杠铃片增加负重。',
   },
   {
-    name: 'Barbell good morning',
+    name: '杠铃早安式',
     muscleGroup: MuscleGroup.LOWER_BACK,
     category: ExerciseCategory.COMPOUND,
     defaultRestSec: 120,
-    notes: 'Bar on the upper back. Hinge at the hips with a flat back, soft knees. Light load, feel the spinal erectors and hamstrings.',
+    notes: '杠铃置于上背部。髋部为轴后推，背部挺直，膝盖微屈。轻负重，感受竖脊肌和腘绳肌。',
   },
 
   // Abs
   {
-    name: 'Machine crunch',
+    name: '器械卷腹',
     muscleGroup: MuscleGroup.ABS,
     category: ExerciseCategory.ISOLATION,
     defaultRestSec: 60,
-    notes: 'Flex the spine against the resistance, ribs toward the pelvis. Controlled tempo, pause at the contraction.',
+    notes: '对抗阻力卷曲脊柱，肋骨向骨盆方向移动。控制节奏，收缩位停顿。',
   },
 
   // ============================================================
@@ -436,32 +436,32 @@ export const EXERCISE_CATALOG: CatalogExercise[] = [
   // not map to a single muscle group.
 
   {
-    name: 'Running',
+    name: '跑步',
     muscleGroup: MuscleGroup.OTHER,
     category: ExerciseCategory.CARDIO,
     defaultRestSec: 60,
-    notes: 'Steady pace you could hold a conversation at, or intervals. Log the time and distance.',
+    notes: '能维持交谈的稳定配速，或间歇跑。记录时间和距离。',
   },
   {
-    name: 'Rowing machine',
+    name: '划船机',
     muscleGroup: MuscleGroup.OTHER,
     category: ExerciseCategory.CARDIO,
     defaultRestSec: 60,
-    notes: 'Drive with the legs, then swing the hips, then pull. Log the time and distance.',
+    notes: '先腿部发力，再摆动髋部，最后拉臂。记录时间和距离。',
   },
   {
-    name: 'Cycling',
+    name: '骑行',
     muscleGroup: MuscleGroup.OTHER,
     category: ExerciseCategory.CARDIO,
     defaultRestSec: 60,
-    notes: 'Outdoor or stationary bike. Log the time and distance.',
+    notes: '户外或固定自行车。记录时间和距离。',
   },
   {
-    name: 'Jump rope',
+    name: '跳绳',
     muscleGroup: MuscleGroup.OTHER,
     category: ExerciseCategory.CARDIO,
     defaultRestSec: 60,
-    notes: 'Light on the feet, elbows close, turn from the wrists. Log the time.',
+    notes: '脚步轻盈，肘部贴近，手腕发力转动。记录时间。',
   },
 ];
 

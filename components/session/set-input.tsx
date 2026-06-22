@@ -155,18 +155,18 @@ export function SetInput({
         body: JSON.stringify({ exerciseId: programExercise.exercise.id, text }),
       });
       if (!res.ok) {
-        setAiHint('Could not parse that. Try the shorthand (e.g. 100x8@9).');
+        setAiHint('无法解析，试试快捷输入格式（如 100x8@9）');
         return;
       }
       const data = (await res.json()) as { parsed: ParsedSetFill | null };
       const parsed = data.parsed;
       if (!parsed) {
-        setAiHint('Could not parse that. Try the shorthand (e.g. 100x8@9).');
+        setAiHint('无法解析，试试快捷输入格式（如 100x8@9）');
         return;
       }
       if (parsed.kind === 'cardio') {
         if (!isCardio) {
-          setAiHint('Could not parse that. Try the shorthand (e.g. 100x8@9).');
+          setAiHint('无法解析，试试快捷输入格式（如 100x8@9）');
           return;
         }
         setForm((f) => ({
@@ -198,7 +198,7 @@ export function SetInput({
         }));
       }
     } catch {
-      setAiHint('Could not parse that. Try the shorthand (e.g. 100x8@9).');
+      setAiHint('无法解析，试试快捷输入格式（如 100x8@9）');
     } finally {
       setAiParsing(false);
     }
@@ -261,7 +261,7 @@ export function SetInput({
             htmlFor="ai-parse"
             className="text-xs uppercase tracking-wide text-muted-foreground"
           >
-            Describe the set (AI)
+            自然语言输入（AI）
           </Label>
           <div className="flex items-center gap-2">
             <Input
@@ -276,8 +276,8 @@ export function SetInput({
               }}
               placeholder={
                 isCardio
-                  ? 'e.g. ran 5k in 25 minutes'
-                  : 'e.g. 100 kg for 5, 2 in the tank'
+                  ? '例如：跑了5公里用时25分钟'
+                  : '例如：100公斤做5次留2次余力'
               }
             />
             <Button
@@ -287,14 +287,14 @@ export function SetInput({
               disabled={aiParsing || aiText.trim() === ''}
               className="shrink-0"
             >
-              {aiParsing ? 'Parsing...' : 'Parse with AI'}
+              {aiParsing ? '解析中...' : 'AI 解析'}
             </Button>
           </div>
           {aiHint ? (
             <p className="text-xs text-muted-foreground">{aiHint}</p>
           ) : (
             <p className="text-xs text-muted-foreground">
-              Fills the fields below for you to review - it never logs on its own.
+              AI 解析后会填入下方表单供你确认，不会自动记录
             </p>
           )}
         </div>
@@ -307,7 +307,7 @@ export function SetInput({
                 htmlFor="cardio-duration"
                 className="text-xs uppercase tracking-wide text-muted-foreground"
               >
-                Duration (mm:ss)
+                时长（分:秒）
               </Label>
               <Input
                 id="cardio-duration"
@@ -316,13 +316,13 @@ export function SetInput({
                 autoComplete="off"
                 value={form.durationInput}
                 onChange={(e) => setForm((f) => ({ ...f, durationInput: e.target.value }))}
-                placeholder="e.g. 12:30"
+                placeholder="例如：12:30"
                 aria-invalid={durationInvalid}
                 className="h-14 text-center text-2xl font-semibold"
               />
               {durationInvalid && (
                 <p className="text-xs text-muted-foreground">
-                  Expected format: mm:ss (e.g. 12:30), h:mm:ss, or plain minutes.
+                  格式：分:秒（如 12:30）、时:分:秒、或纯分钟
                 </p>
               )}
             </div>
@@ -333,7 +333,7 @@ export function SetInput({
                 htmlFor="cardio-distance"
                 className="text-xs uppercase tracking-wide text-muted-foreground"
               >
-                Distance (km, optional)
+                距离（公里，可选）
               </Label>
               <Input
                 id="cardio-distance"
@@ -343,13 +343,13 @@ export function SetInput({
                 min="0"
                 value={form.distanceInput}
                 onChange={(e) => setForm((f) => ({ ...f, distanceInput: e.target.value }))}
-                placeholder="e.g. 2.5"
+                placeholder="例如：2.5"
                 aria-invalid={distanceInvalid}
                 className="h-14 text-center text-2xl font-semibold"
               />
               {distanceInvalid && (
                 <p className="text-xs text-muted-foreground">
-                  Enter a distance between 0 and 1000 km.
+                  请输入 0-1000 公里之间的距离
                 </p>
               )}
             </div>
@@ -362,7 +362,7 @@ export function SetInput({
             htmlFor="quick-entry"
             className="text-xs uppercase tracking-wide text-muted-foreground"
           >
-            Quick entry
+            快捷输入
           </Label>
           <Input
             id="quick-entry"
@@ -371,12 +371,12 @@ export function SetInput({
             autoComplete="off"
             value={quickEntry}
             onChange={(e) => handleQuickEntry(e.target.value)}
-            placeholder={`e.g. 100x8@9 (${unitLabel(unit)} x reps @ RPE)`}
+            placeholder={`例如：100x8@9 (${unitLabel(unit)} × 次数 @ RPE)`}
             aria-invalid={quickEntryInvalid}
           />
           {quickEntryInvalid && (
             <p className="text-xs text-muted-foreground">
-              Expected format: weight x reps, optionally @ RPE - e.g. 100x8 or 62.5x8@8.5
+              格式：重量 × 次数，可选 @RPE — 如 100x8 或 62.5x8@8.5
             </p>
           )}
         </div>
@@ -385,7 +385,7 @@ export function SetInput({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label className="text-xs uppercase tracking-wide text-muted-foreground">
-              Load ({unitLabel(unit)})
+              重量 ({unitLabel(unit)})
             </Label>
             <div className="flex items-center gap-1">
               <WarmupCalculator weightKg={form.weight} unit={unit} />
@@ -432,7 +432,7 @@ export function SetInput({
         {/* Reps */}
         <div className="space-y-2">
           <Label className="text-xs uppercase tracking-wide text-muted-foreground">
-            Reps
+            次数
           </Label>
           <div className="flex items-center gap-2">
             <Button
@@ -470,7 +470,7 @@ export function SetInput({
         {/* RIR */}
         <div className="space-y-2">
           <Label className="text-xs uppercase tracking-wide text-muted-foreground">
-            RIR (reps in reserve)
+            RIR（预留次数）
           </Label>
           <div className="grid grid-cols-4 gap-2">
             {RIR_OPTIONS.map((opt) => (
@@ -494,14 +494,14 @@ export function SetInput({
               checked={form.isDropSet}
               onCheckedChange={(v) => setForm((f) => ({ ...f, isDropSet: v }))}
             />
-            <span>Drop set</span>
+            <span>降重组</span>
           </label>
           <label className="flex cursor-pointer items-center gap-2">
             <Switch
               checked={form.isWarmup}
               onCheckedChange={(v) => setForm((f) => ({ ...f, isWarmup: v }))}
             />
-            <span>Warmup</span>
+            <span>热身</span>
           </label>
         </div>
           </>
@@ -510,14 +510,14 @@ export function SetInput({
         {/* Notes */}
         <div className="space-y-2">
           <Label htmlFor="set-notes" className="text-xs uppercase tracking-wide text-muted-foreground">
-            Quick note (optional)
+            备注（可选）
           </Label>
           <Textarea
             id="set-notes"
             rows={2}
             value={form.notes}
             onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-            placeholder="e.g. wrist pain, dropped the weight mid-set, felt easy, etc."
+            placeholder="例如：手腕不适、中途降重、感觉很轻松等"
           />
         </div>
 
@@ -528,7 +528,7 @@ export function SetInput({
           className="h-20 w-full text-lg font-semibold"
         >
           <Check className="size-6" />
-          <span className="ml-2">{submitting ? 'Saving...' : 'Log the set'}</span>
+          <span className="ml-2">{submitting ? '保存中...' : '记录本组'}</span>
         </Button>
       </CardContent>
     </Card>

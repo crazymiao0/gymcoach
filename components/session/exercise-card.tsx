@@ -24,7 +24,7 @@ import type { SerializedLastPerformance } from './session-runner';
 // when absent, so a duration-only cardio set shows just the duration.
 function cardioLastLine(cardio: NonNullable<SerializedLastPerformance['cardio']>): string {
   const base = formatCardioSet(cardio.durationSec, cardio.distanceM);
-  return cardio.avgHr != null ? `${base} · ${cardio.avgHr} bpm` : base;
+  return cardio.avgHr != null ? `${base} · 心率 ${cardio.avgHr} bpm` : base;
 }
 
 interface Props {
@@ -47,14 +47,14 @@ function readinessExplainer(
   readiness: ReadinessSignal | null,
   muscleGroup: MuscleGroup,
 ): string | null {
-  if (reason === 'planned-deload') return 'Lighter - planned deload week';
+  if (reason === 'planned-deload') return '减轻 - 计划减载周';
   if (reason !== 'readiness-hold' && reason !== 'readiness-deload') return null;
-  const verb = reason === 'readiness-deload' ? 'Lighter' : 'Held';
+  const verb = reason === 'readiness-deload' ? '减轻' : '维持';
   const groupSoreness = readiness?.soreness?.[muscleGroup];
   const cause =
     typeof groupSoreness === 'number' && groupSoreness >= SORENESS_HOLD_AT_OR_ABOVE
-      ? 'reported soreness'
-      : 'low readiness today';
+      ? '肌肉酸痛'
+      : '准备度不足';
   return `${verb} - ${cause}`;
 }
 
@@ -63,15 +63,15 @@ function helpText(suggestion: SuggestionResult, unit: WeightUnit): string {
   const working = formatWeight(suggestion.workingWeight ?? 0, unit, { decimals: 2, group: false });
   switch (suggestion.reason) {
     case 'progression':
-      return `All working sets reached ${suggestion.targetRepsMax} reps at ${working}: load goes up by ${formatWeight(suggestion.delta ?? 0, unit, { decimals: 2, group: false })} to drop back to the bottom of the rep range (double progression).`;
+      return `所有正式组在 ${working} 下完成了 ${suggestion.targetRepsMax} 次，负荷增加 ${formatWeight(suggestion.delta ?? 0, unit, { decimals: 2, group: false })} 回到次数范围下限（双重渐进法）。`;
     case 'readiness-hold':
-      return `A recent readiness check-in flagged poor recovery, so the load stays at ${working} instead of increasing today. Push the reps, not the weight.`;
+      return `最近训练准备度检查显示恢复不足，今天维持 ${working} 不加重量，专注于推次数而不是加重量。`;
     case 'readiness-deload':
-      return `A recent readiness check-in flagged very poor recovery, so the load steps down from ${working} for a lighter session. It will climb back as recovery improves.`;
+      return `最近训练准备度检查显示恢复很差，负荷从 ${working} 下调进行轻训，随恢复会逐步回升。`;
     case 'planned-deload':
-      return `You are in a planned deload week, so the load steps down about 10% from ${working}. Normal progression resumes when the week ends (you can end it early on the progress page).`;
+      return `当前在计划减载周，负荷下调约 10% 至 ${working}。减载结束后恢复正常渐进（可在进度页提前结束减载）。`;
     default:
-      return `Keep the same load and try to beat your reps. Progression unlocks once all working sets reach ${suggestion.targetRepsMax} reps.`;
+      return `维持当前负荷，争取突破次数。当所有正式组都能完成 ${suggestion.targetRepsMax} 次时，会自动触发渐进增加负荷。`;
   }
 }
 
@@ -103,7 +103,7 @@ export function ExerciseCard({
   );
   const readinessNote = readinessExplainer(suggestion.reason, readiness, exo.muscleGroup);
   const lastDate = lastPerformance
-    ? new Intl.DateTimeFormat('en-US', { day: '2-digit', month: '2-digit' }).format(
+    ? new Intl.DateTimeFormat('zh-CN', { day: '2-digit', month: '2-digit' }).format(
         new Date(lastPerformance.sessionStartedAt),
       )
     : null;
@@ -133,14 +133,13 @@ export function ExerciseCard({
         <p className="text-sm font-medium">
           {isCardio ? (
             <>
-              {programExercise.targetSets} set
-              {programExercise.targetSets > 1 ? 's' : ''} · Rest {programExercise.restSec}s
+              {programExercise.targetSets} 组 · 休息 {programExercise.restSec}秒
             </>
           ) : (
             <>
-              {programExercise.targetSets} sets × {repsLabel} reps · RIR{' '}
-              {programExercise.targetRIR} · Rest {programExercise.restSec}s
-              {programExercise.tempo && ` · Tempo ${programExercise.tempo}`}
+              {programExercise.targetSets}组 × {repsLabel}次 · RIR{' '}
+              {programExercise.targetRIR} · 休息 {programExercise.restSec}秒
+              {programExercise.tempo && ` · 节奏 ${programExercise.tempo}`}
             </>
           )}
         </p>
@@ -148,13 +147,13 @@ export function ExerciseCard({
         {lastPerformance && (!isCardio || lastPerformance.cardio) && (
           <div className="rounded-md bg-secondary/50 p-3 text-sm">
             <div className="flex items-center gap-2 text-muted-foreground">
-              <span className="text-xs">Last session ({lastDate})</span>
+              <span className="text-xs">上次 ({lastDate})</span>
             </div>
             <p className="font-medium">
               {isCardio && lastPerformance.cardio
                 ? cardioLastLine(lastPerformance.cardio)
                 : lastPerformance.maxWeight === 0
-                  ? `${lastPerformance.repsAtMaxWeight} reps bodyweight`
+                  ? `${lastPerformance.repsAtMaxWeight}次 自重`
                   : `${formatWeight(lastPerformance.maxWeight, unit, { decimals: 2, group: false })} × ${lastPerformance.repsAtMaxWeight} reps`}
             </p>
           </div>
@@ -169,10 +168,10 @@ export function ExerciseCard({
                 <Lightbulb className="size-4 text-primary" />
               )}
               <span className="flex-1">
-                Suggestion:{' '}
+                建议：{' '}
                 <span className="font-medium">
                   {suggestion.weight === 0
-                    ? 'bodyweight'
+                    ? '自重'
                     : formatWeight(suggestion.weight, unit, { decimals: 2, group: false })}
                 </span>
                 {suggestion.reason === 'progression' && suggestion.delta && (
@@ -189,7 +188,7 @@ export function ExerciseCard({
               <button
                 type="button"
                 onClick={() => setHelpOpen((v) => !v)}
-                aria-label="How the suggestion is calculated"
+                aria-label="建议依据"
                 aria-expanded={helpOpen}
                 className="text-muted-foreground hover:text-foreground"
               >
@@ -213,7 +212,7 @@ export function ExerciseCard({
               className="-ml-2"
             >
               {notesOpen ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
-              <span className="ml-1">Notes / mind-muscle cue</span>
+              <span className="ml-1">备注</span>
             </Button>
             {notesOpen && (
               <div className="mt-2 space-y-2 rounded-md bg-muted/50 p-3 text-xs leading-relaxed text-muted-foreground">
